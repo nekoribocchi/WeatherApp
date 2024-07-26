@@ -245,3 +245,8 @@ URLSession.shared.dataTaskPublisher(for: url)
     - 受信したデータを処理し、UIを更新します。
     - `receiveCompletion`クロージャは省略されており、成功時とエラー時の処理が統一されています。
     - `receiveValue`クロージャで受信した値を用いて、`weatherInfo`、`weatherIcon`、`weatherIconColor`を更新します。
+
+ ## 使用したAPI
+天気予報 API（livedoor 天気互換）https://weather.tsukumijima.net/
+
+ 
