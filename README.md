@@ -249,4 +249,7 @@ URLSession.shared.dataTaskPublisher(for: url)
  ## 使用したAPI
 天気予報 API（livedoor 天気互換）https://weather.tsukumijima.net/
 
- 
+## 参考
+
+- [【SwiftUI】Combine フレームワーク使ってみた 〜 その５ 〜 SwiftUI で天気予報を表示](https://www.youtube.com/watch?v=zp_YQkdDtH8&t)  
+そらし, 2019/10/25
