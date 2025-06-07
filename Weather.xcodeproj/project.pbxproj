@@ -11,6 +11,7 @@
 		8A1783332C52063700A08B1B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A1783322C52063700A08B1B /* ContentView.swift */; };
 		8A1783352C52063900A08B1B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1783342C52063900A08B1B /* Assets.xcassets */; };
 		8A1783382C52063900A08B1B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A1783372C52063900A08B1B /* Preview Assets.xcassets */; };
+		8ABFBEEA2DF474E6004013C0 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8ABFBEE92DF474E6004013C0 /* Config.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		8A1783322C52063700A08B1B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8A1783342C52063900A08B1B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A1783372C52063900A08B1B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		8ABFBEE92DF474E6004013C0 /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			children = (
 				8A1783302C52063700A08B1B /* WeatherApp.swift */,
 				8A1783322C52063700A08B1B /* ContentView.swift */,
+				8ABFBEE92DF474E6004013C0 /* Config.plist */,
 				8A1783342C52063900A08B1B /* Assets.xcassets */,
 				8A1783362C52063900A08B1B /* Preview Content */,
 			);
@@ -126,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A1783382C52063900A08B1B /* Preview Assets.xcassets in Resources */,
+				8ABFBEEA2DF474E6004013C0 /* Config.plist in Resources */,
 				8A1783352C52063900A08B1B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,6 +279,7 @@
 				DEVELOPMENT_TEAM = G3Y54DBA6F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "天気を表示するために位置情報を使います";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -304,6 +309,7 @@
 				DEVELOPMENT_TEAM = G3Y54DBA6F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "天気を表示するために位置情報を使います";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
