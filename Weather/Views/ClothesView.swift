@@ -31,9 +31,7 @@ struct ClothesView: View {
                 Text(weather.weather.first?.description ?? "")
                     .font(.title2)
                     .foregroundColor(.secondary)
-                Text("湿度: \(weather.main.humidity)%")
-                    .font(.headline)
-                    .foregroundColor(.secondary)
+              
             }
         }
     }

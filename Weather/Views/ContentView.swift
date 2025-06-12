@@ -10,15 +10,15 @@ struct ContentView: View {
             if weatherManager.isLoading {
                 ProgressView("読み込み中...")
                     .scaleEffect(1.2)
-            } else if let weather = weatherManager.weather {
+            } else if let weather = weatherManager.currentWeather {
                 ClothesView(weather: weather)
             } else if !weatherManager.errorMessage.isEmpty {
                 ErrorView(message: weatherManager.errorMessage) {
-                    weatherManager.getWeather()
+                    weatherManager.getCurrentWeather()
                 }
             } else {
                 GetWeatherView {
-                    weatherManager.getWeather()
+                    weatherManager.getCurrentWeather()
                 }
             }
         }

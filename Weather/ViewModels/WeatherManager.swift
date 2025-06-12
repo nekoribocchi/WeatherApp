@@ -1,9 +1,3 @@
-//
-//  WeatherManager.swift
-//  Weather
-//
-//  Created by nekoribocchi on 2025/06/09.
-//
 import Foundation
 import CoreLocation
 
@@ -12,8 +6,11 @@ import CoreLocation
 class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     // MARK: - Published Properties
-    /// 取得した天気データ
-    @Published var weather: WeatherData?
+    /// 取得した現在の天気データ
+    @Published var currentWeather: WeatherData?
+    
+    /// 取得した予報データ
+    @Published var forecastWeather: ForecastData?
     
     /// ローディング状態
     @Published var isLoading = false
@@ -25,7 +22,6 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private let locationManager = CLLocationManager()
     
     /// OpenWeatherMap APIキー
-    /// Config.plistファイルから読み込む
     private let apiKey: String = {
         if let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
            let plist = NSDictionary(contentsOfFile: path),
@@ -34,116 +30,135 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             return key
         }
         
-        // APIキーが設定されていない場合はアプリを強制終了
         fatalError("API Key が設定されていません。Config.plistを作成してOpenWeatherAPIKeyを追加してください。")
     }()
     
     // MARK: - Initializer
-    /// 初期化処理
     override init() {
         super.init()
-        // 位置情報マネージャーの設定
-        locationManager.delegate = self  // 現在地の取得や位置情報の許可など、位置情報関連のイベントをこのクラスで受け取る
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest  // 最高精度で位置情報を取得
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
     
     // MARK: - Public Methods
-    func getWeather() {
-        isLoading = true           // ローディング開始
-        errorMessage = ""          // エラーメッセージをクリア
-        locationManager.requestWhenInUseAuthorization()  // 位置情報の許可をリクエスト
-        locationManager.requestLocation()                // 現在位置の取得を開始
+    
+    /// 現在の天気を取得
+    func getCurrentWeather() {
+        isLoading = true
+        errorMessage = ""
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
+    }
+    
+    /// 5日間の予報を取得
+    func getForecast() {
+        guard let location = locationManager.location else {
+            // 位置情報がない場合は先に位置情報を取得
+            isLoading = true
+            errorMessage = ""
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.requestLocation()
+            return
+        }
+        
+        fetchForecast(lat: location.coordinate.latitude, lon: location.coordinate.longitude)
     }
     
     // MARK: - Location Manager Delegate Methods
-    /**
-     * 位置情報の取得に成功した時に呼ばれる
-     * @param manager: 位置情報マネージャー
-     * @param locations: 取得した位置情報の配列
-     */
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        // 最初の位置情報を取得
         guard let location = locations.first else { return }
         
-        // 取得した緯度・経度で天気情報を取得
+        // デフォルトでは現在の天気を取得
         fetchCurrentWeather(lat: location.coordinate.latitude, lon: location.coordinate.longitude)
     }
     
-    /**
-     * 位置情報の取得に失敗した時に呼ばれる
-     * @param manager: 位置情報マネージャー
-     * @param error: エラー情報
-     */
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        isLoading = false                      // ローディング終了
-        errorMessage = "位置情報の取得に失敗しました"  // エラーメッセージを設定
+        isLoading = false
+        errorMessage = "位置情報の取得に失敗しました"
     }
     
-    /**
-     * 位置情報の許可状態が変更された時に呼ばれる
-     * @param manager: 位置情報マネージャー
-     * @param status: 新しい許可状態
-     */
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedWhenInUse, .authorizedAlways:
-            // 許可が得られた場合：位置情報の取得を開始
             locationManager.requestLocation()
         case .denied:
-            // 許可が拒否された場合：エラー状態に設定
             isLoading = false
             errorMessage = "位置情報の許可が必要です"
         default:
-            // その他の状態（未決定など）は何もしない
             break
         }
     }
     
     // MARK: - Private Methods
-    private func fetchWeatherData(from urlString: String) {
+    
+    /// ジェネリックなデータ取得メソッド
+    private func fetchData<T: Codable>(
+        from apiType: WeatherAPIType,
+        responseType: T.Type,
+        completion: @escaping (Result<T, Error>) -> Void
+    ) {
+        let urlString = apiType.url(apiKey: apiKey)
+        
         guard let url = URL(string: urlString) else {
-            isLoading = false
-            errorMessage = "URLエラー"
+            completion(.failure(URLError(.badURL)))
             return
         }
         
-        // APIリクエストを実行
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            // メインスレッドでUI更新処理を実行
+        URLSession.shared.dataTask(with: url) { [responseType] data, response, error in
             DispatchQueue.main.async {
-                self.isLoading = false  // ローディング終了
-                
-                // 通信エラーのチェック
                 if let error = error {
-                    self.errorMessage = "通信エラー: \(error.localizedDescription)"
+                    completion(.failure(error))
                     return
                 }
                 
-                // レスポンスデータの存在チェック
                 guard let data = data else {
-                    self.errorMessage = "データが取得できませんでした"
+                    completion(.failure(URLError(.badServerResponse)))
                     return
                 }
                 
-                // JSONデータをWeatherDataオブジェクトに変換
                 do {
-                    self.weather = try JSONDecoder().decode(WeatherData.self, from: data)
+                    let decodedData = try JSONDecoder().decode(responseType, from: data)
+                    completion(.success(decodedData))
                 } catch {
-                    self.errorMessage = "データの解析に失敗しました"
+                    completion(.failure(error))
                 }
             }
-        }.resume()  // データタスクを開始
+        }.resume()
     }
-
-    // 使用例：現在の天気を取得
+    
+    /// 現在の天気を取得
     private func fetchCurrentWeather(lat: Double, lon: Double) {
-        let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(apiKey)&units=metric&lang=ja"
-        fetchWeatherData(from: urlString)
+        let apiType = WeatherAPIType.current(lat: lat, lon: lon)
+        
+        fetchData(from: apiType, responseType: WeatherData.self) { [weak self] result in
+            self?.isLoading = false
+            
+            switch result {
+            case .success(let weatherData):
+                self?.currentWeather = weatherData
+                self?.errorMessage = ""
+            case .failure(let error):
+                self?.errorMessage = "天気データの取得に失敗しました: \(error.localizedDescription)"
+            }
+        }
     }
-
-    // 使用例：5日間の天気予報を取得（異なるAPI）
-    private func fetchWeatherForecast(lat: Double, lon: Double) {
-        let urlString = "https://api.openweathermap.org/data/2.5/forecast?lat=\(lat)&lon=\(lon)&appid=\(apiKey)&units=metric&lang=ja"
-        fetchWeatherData(from: urlString)
+    
+    /// 5日間の予報を取得
+    private func fetchForecast(lat: Double, lon: Double) {
+        isLoading = true
+        let apiType = WeatherAPIType.forecast(lat: lat, lon: lon)
+        
+        fetchData(from: apiType, responseType: ForecastData.self) { [weak self] result in
+            self?.isLoading = false
+            
+            switch result {
+            case .success(let forecastData):
+                self?.forecastWeather = forecastData
+                self?.errorMessage = ""
+            case .failure(let error):
+                self?.errorMessage = "予報データの取得に失敗しました: \(error.localizedDescription)"
+            }
+        }
     }
 }
