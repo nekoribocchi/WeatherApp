@@ -8,18 +8,30 @@
 import Foundation
 // MARK: - Models
 struct WeatherData: Codable {
+    let name: String //tokyo
     let main: Main
     let weather: [Weather]
-    let name: String
     
     struct Main: Codable {
         let temp: Double
-        let humidity: Int
     }
     
     struct Weather: Codable {
-        let main: String
-        let description: String
-        let icon: String
+        let main: String         // 天気の種類（例："Clouds" "Rain"）
+        let description: String  // 日本語での説明（例："くもり"）
+        let icon: String         // アイコンのID（例："04d"）
     }
 }
+/*
+ WeatherData
+ ├── name: "Tokyo"
+ ├── main
+ │   ├── temp: 25.4
+ │   └── humidity: 64
+ └── weather (配列)
+     └── [0]
+         ├── main: "Clouds"
+         ├── description: "くもり"
+         └── icon: "04d"
+
+ */

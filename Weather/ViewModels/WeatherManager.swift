@@ -8,38 +8,28 @@ import Foundation
 import CoreLocation
 
 // MARK: - Weather Manager
-/**
- * 天気情報を管理するクラス
- * - 位置情報を取得して現在地の天気を取得
- * - OpenWeatherMap APIを使用
- * - SwiftUIのObservableObjectプロトコルに準拠
- */
+
 class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     // MARK: - Published Properties
-    /// 取得した天気データ（SwiftUIで監視される）
+    /// 取得した天気データ
     @Published var weather: WeatherData?
     
-    /// ローディング状態（SwiftUIで監視される）
+    /// ローディング状態
     @Published var isLoading = false
     
-    /// エラーメッセージ（SwiftUIで監視される）
+    /// エラーメッセージ
     @Published var errorMessage = ""
     
     // MARK: - Private Properties
-    /// 位置情報管理用のマネージャー
     private let locationManager = CLLocationManager()
     
     /// OpenWeatherMap APIキー
     /// Config.plistファイルから読み込む
     private let apiKey: String = {
-        // Config.plistファイルのパスを取得
         if let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
-           // plistファイルを辞書として読み込み
            let plist = NSDictionary(contentsOfFile: path),
-           // "OpenWeatherAPIKey"キーの値を取得
            let key = plist["OpenWeatherAPIKey"] as? String,
-           // キーが空でないことを確認
            !key.isEmpty {
             return key
         }
@@ -53,17 +43,11 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     override init() {
         super.init()
         // 位置情報マネージャーの設定
-        locationManager.delegate = self  // デリゲートを自分に設定
+        locationManager.delegate = self  // 現在地の取得や位置情報の許可など、位置情報関連のイベントをこのクラスで受け取る
         locationManager.desiredAccuracy = kCLLocationAccuracyBest  // 最高精度で位置情報を取得
     }
     
     // MARK: - Public Methods
-    /**
-     * 天気情報を取得する（外部から呼び出される関数）
-     * 1. ローディング開始
-     * 2. 位置情報の許可をリクエスト
-     * 3. 現在位置を取得
-     */
     func getWeather() {
         isLoading = true           // ローディング開始
         errorMessage = ""          // エラーメッセージをクリア
@@ -82,7 +66,7 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         guard let location = locations.first else { return }
         
         // 取得した緯度・経度で天気情報を取得
-        fetchWeather(lat: location.coordinate.latitude, lon: location.coordinate.longitude)
+        fetchCurrentWeather(lat: location.coordinate.latitude, lon: location.coordinate.longitude)
     }
     
     /**
@@ -116,18 +100,7 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     // MARK: - Private Methods
-    /**
-     * 指定された緯度・経度の天気情報をAPIから取得する
-     * @param lat: 緯度
-     * @param lon: 経度
-     */
-    private func fetchWeather(lat: Double, lon: Double) {
-        // OpenWeatherMap APIのURLを構築
-        // - units=metric: 摂氏温度で取得
-        // - lang=ja: 日本語で取得
-        let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(apiKey)&units=metric&lang=ja"
-        
-        // URLの作成をチェック
+    private func fetchWeatherData(from urlString: String) {
         guard let url = URL(string: urlString) else {
             isLoading = false
             errorMessage = "URLエラー"
@@ -160,5 +133,17 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                 }
             }
         }.resume()  // データタスクを開始
+    }
+
+    // 使用例：現在の天気を取得
+    private func fetchCurrentWeather(lat: Double, lon: Double) {
+        let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(apiKey)&units=metric&lang=ja"
+        fetchWeatherData(from: urlString)
+    }
+
+    // 使用例：5日間の天気予報を取得（異なるAPI）
+    private func fetchWeatherForecast(lat: Double, lon: Double) {
+        let urlString = "https://api.openweathermap.org/data/2.5/forecast?lat=\(lat)&lon=\(lon)&appid=\(apiKey)&units=metric&lang=ja"
+        fetchWeatherData(from: urlString)
     }
 }
