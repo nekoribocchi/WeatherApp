@@ -4,59 +4,30 @@
 //
 //  Created by nekoribocchi on 2025/06/09.
 //
-
 import Foundation
-// MARK: - Models
+
+// MARK: - Weather Models
+
+/// 現在の天気データ
 struct WeatherData: Codable {
-    let name: String //tokyo
+    let name: String
     let main: Main
     let weather: [Weather]
+    let wind: Wind?
+    let dt: Int
+    let timezone: Int
     
     struct Main: Codable {
         let temp: Double
-    }
-    
-    struct Weather: Codable {
-        let main: String         // 天気の種類（例："Clouds" "Rain"）
-        let description: String  // 日本語での説明（例："くもり"）
-        let icon: String         // アイコンのID（例："04d"）
-    }
-}
-
-/*
- WeatherData
- ├── name: "Tokyo"
- ├── main
- │   ├── temp: 25.4
- │   └── humidity: 64
- └── weather (配列)
-     └── [0]
-         ├── main: "Clouds"
-         ├── description: "くもり"
-         └── icon: "04d"
-
- */
-
-/// 5日間予報データ
-struct ForecastData: Codable {
-    let list: [ForecastItem]
-    let city: City
-    
-    struct ForecastItem: Codable {
-        let dt: Int
-        let main: Main
-        let weather: [Weather]
-        let wind: Wind?
-        let dt_txt: String
-    }
-    
-    struct Main: Codable {
-        let temp: Double
-        let humidity: Int
+        let feels_like: Double
+        let temp_min: Double
+        let temp_max: Double
         let pressure: Int
+        let humidity: Int
     }
     
     struct Weather: Codable {
+        let id: Int
         let main: String
         let description: String
         let icon: String
@@ -64,11 +35,249 @@ struct ForecastData: Codable {
     
     struct Wind: Codable {
         let speed: Double
-    }
-    
-    struct City: Codable {
-        let name: String
-        let country: String
+        let deg: Int?
     }
 }
 
+/// 5日間予報データ
+struct ForecastData: Codable {
+    let cod: String
+    let message: Int
+    let cnt: Int
+    let list: [ForecastItem]
+    let city: City
+    
+    struct ForecastItem: Codable {
+        let dt: Int
+        let main: Main
+        let weather: [Weather]
+        let clouds: Clouds
+        let wind: Wind
+        let visibility: Int
+        let pop: Double
+        let dt_txt: String
+        
+        struct Main: Codable {
+            let temp: Double
+            let feels_like: Double
+            let temp_min: Double
+            let temp_max: Double
+            let pressure: Int
+            let sea_level: Int
+            let grnd_level: Int
+            let humidity: Int
+            let temp_kf: Double
+        }
+        
+        struct Weather: Codable {
+            let id: Int
+            let main: String
+            let description: String
+            let icon: String
+        }
+        
+        struct Clouds: Codable {
+            let all: Int
+        }
+        
+        struct Wind: Codable {
+            let speed: Double
+            let deg: Int
+            let gust: Double?
+        }
+    }
+    
+    struct City: Codable {
+        let id: Int
+        let name: String
+        let coord: Coord
+        let country: String
+        let population: Int
+        let timezone: Int
+        let sunrise: Int
+        let sunset: Int
+        
+        struct Coord: Codable {
+            let lat: Double
+            let lon: Double
+        }
+    }
+}
+
+// MARK: - Mock Data Extensions for Previews
+
+extension WeatherData {
+    static let mockData = WeatherData(
+        name: "東京",
+        main: Main(
+            temp: 25.0,
+            feels_like: 27.0,
+            temp_min: 20.0,
+            temp_max: 30.0,
+            pressure: 1013,
+            humidity: 60
+        ),
+        weather: [
+            Weather(
+                id: 800,
+                main: "Clear",
+                description: "快晴",
+                icon: "01d"
+            )
+        ],
+        wind: Wind(speed: 3.5, deg: 180),
+        dt: Int(Date().timeIntervalSince1970),
+        timezone: 32400
+    )
+    
+    static let mockRainyData = WeatherData(
+        name: "大阪",
+        main: Main(
+            temp: 18.0,
+            feels_like: 16.0,
+            temp_min: 15.0,
+            temp_max: 22.0,
+            pressure: 1008,
+            humidity: 85
+        ),
+        weather: [
+            Weather(
+                id: 500,
+                main: "Rain",
+                description: "小雨",
+                icon: "10d"
+            )
+        ],
+        wind: Wind(speed: 2.1, deg: 90),
+        dt: Int(Date().timeIntervalSince1970),
+        timezone: 32400
+    )
+}
+
+extension ForecastData {
+    static let mockData = ForecastData(
+        cod: "200",
+        message: 0,
+        cnt: 5,
+        list: [
+            ForecastItem.mockSunnyItem,
+            ForecastItem.mockCloudyItem,
+            ForecastItem.mockRainyItem,
+            ForecastItem.mockSunnyItem,
+            ForecastItem.mockCloudyItem
+        ],
+        city: City(
+            id: 1850147,
+            name: "東京",
+            coord: City.Coord(lat: 35.6762, lon: 139.6503),
+            country: "JP",
+            population: 13929286,
+            timezone: 32400,
+            sunrise: 1671834000,
+            sunset: 1671868800
+        )
+    )
+    
+    static let mockEmptyData = ForecastData(
+        cod: "200",
+        message: 0,
+        cnt: 0,
+        list: [],
+        city: City(
+            id: 1850147,
+            name: "東京",
+            coord: City.Coord(lat: 35.6762, lon: 139.6503),
+            country: "JP",
+            population: 13929286,
+            timezone: 32400,
+            sunrise: 1671834000,
+            sunset: 1671868800
+        )
+    )
+}
+
+extension ForecastData.ForecastItem {
+    static let mockSunnyItem = ForecastData.ForecastItem(
+        dt: Int(Date().timeIntervalSince1970) + 86400,
+        main: Main(
+            temp: 26.0,
+            feels_like: 28.0,
+            temp_min: 22.0,
+            temp_max: 30.0,
+            pressure: 1015,
+            sea_level: 1015,
+            grnd_level: 1012,
+            humidity: 55,
+            temp_kf: 0.0
+        ),
+        weather: [
+            Weather(
+                id: 800,
+                main: "Clear",
+                description: "快晴",
+                icon: "01d"
+            )
+        ],
+        clouds: Clouds(all: 5),
+        wind: Wind(speed: 2.5, deg: 200, gust: nil),
+        visibility: 10000,
+        pop: 0.1,
+        dt_txt: "2024-06-13 12:00:00"
+    )
+    
+    static let mockCloudyItem = ForecastData.ForecastItem(
+        dt: Int(Date().timeIntervalSince1970) + 172800,
+        main: Main(
+            temp: 22.0,
+            feels_like: 23.0,
+            temp_min: 18.0,
+            temp_max: 25.0,
+            pressure: 1010,
+            sea_level: 1010,
+            grnd_level: 1007,
+            humidity: 70,
+            temp_kf: 0.0
+        ),
+        weather: [
+            Weather(
+                id: 803,
+                main: "Clouds",
+                description: "曇り",
+                icon: "04d"
+            )
+        ],
+        clouds: Clouds(all: 75),
+        wind: Wind(speed: 1.8, deg: 120, gust: nil),
+        visibility: 10000,
+        pop: 0.3,
+        dt_txt: "2024-06-14 12:00:00"
+    )
+    
+    static let mockRainyItem = ForecastData.ForecastItem(
+        dt: Int(Date().timeIntervalSince1970) + 259200,
+        main: Main(
+            temp: 19.0,
+            feels_like: 17.0,
+            temp_min: 16.0,
+            temp_max: 22.0,
+            pressure: 1005,
+            sea_level: 1005,
+            grnd_level: 1002,
+            humidity: 88,
+            temp_kf: 0.0
+        ),
+        weather: [
+            Weather(
+                id: 500,
+                main: "Rain",
+                description: "小雨",
+                icon: "10d"
+            )
+        ],
+        clouds: Clouds(all: 90),
+        wind: Wind(speed: 3.2, deg: 80, gust: 4.5),
+        visibility: 8000,
+        pop: 0.8,
+        dt_txt: "2024-06-15 12:00:00"
+    )
+}
