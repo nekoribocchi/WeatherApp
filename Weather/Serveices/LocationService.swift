@@ -19,7 +19,6 @@ protocol LocationServiceProtocol: ObservableObject {
 }
 
 // MARK: - Location Service
-
 @MainActor
 class LocationService: NSObject, LocationServiceProtocol, ObservableObject {
     
