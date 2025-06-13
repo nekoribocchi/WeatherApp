@@ -81,17 +81,30 @@ class WeatherAPIService: WeatherAPIServiceProtocol {
                 throw WeatherAPIError.invalidResponse
             }
             
-            guard 200...299 ~= httpResponse.statusCode else {
+            switch httpResponse.statusCode {
+            case 200...299:
+                break // 成功
+            case 400:
+                throw WeatherAPIError.badRequest
+            case 401:
+                throw WeatherAPIError.unauthorized
+            case 404:
+                throw WeatherAPIError.notFound
+            case 429:
+                throw WeatherAPIError.rateLimitExceeded
+            case 500...599:
+                throw WeatherAPIError.serverError(httpResponse.statusCode)
+            default:
                 throw WeatherAPIError.httpError(httpResponse.statusCode)
             }
             
             let decoder = JSONDecoder()
             return try decoder.decode(responseType, from: data)
         } catch {
-            if error is DecodingError {
-                throw WeatherAPIError.decodingError
-            } else if error is WeatherAPIError {
-                throw error
+            if let weatherError = error as? WeatherAPIError {
+                throw weatherError
+            } else if error is DecodingError {
+                throw WeatherAPIError.decodingError(error)
             } else {
                 throw WeatherAPIError.networkError(error)
             }
@@ -104,9 +117,14 @@ class WeatherAPIService: WeatherAPIServiceProtocol {
 enum WeatherAPIError: Error, LocalizedError {
     case invalidURL
     case invalidResponse
+    case badRequest
+    case unauthorized
+    case notFound
+    case rateLimitExceeded
+    case serverError(Int)
     case httpError(Int)
     case networkError(Error)
-    case decodingError
+    case decodingError(Error)
     
     var errorDescription: String? {
         switch self {
@@ -114,12 +132,22 @@ enum WeatherAPIError: Error, LocalizedError {
             return "無効なURLです"
         case .invalidResponse:
             return "無効なレスポンスです"
+        case .badRequest:
+            return "リクエストが正しくありません"
+        case .unauthorized:
+            return "APIキーが無効です"
+        case .notFound:
+            return "指定された場所が見つかりません"
+        case .rateLimitExceeded:
+            return "APIの利用制限を超えました。しばらく時間をおいて再度お試しください"
+        case .serverError(let statusCode):
+            return "サーバーエラーが発生しました: \(statusCode)"
         case .httpError(let statusCode):
             return "HTTPエラー: \(statusCode)"
         case .networkError(let error):
             return "ネットワークエラー: \(error.localizedDescription)"
-        case .decodingError:
-            return "データの解析に失敗しました"
+        case .decodingError(let error):
+            return "データの解析に失敗しました: \(error.localizedDescription)"
         }
     }
 }

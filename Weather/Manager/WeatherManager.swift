@@ -1,9 +1,6 @@
 import Foundation
 import CoreLocation
 
-import Foundation
-import CoreLocation
-
 // MARK: - Weather Manager
 
 @MainActor
@@ -55,19 +52,21 @@ class WeatherManager: ObservableObject {
     
     /// 現在の天気を取得
     func getCurrentWeather() {
-        //新しい非同期タスクを作成
-        /// このメソッド自体は同期メソッドだが、内部で非同期処理を実行
-        
         Task {
             await performWeatherRequest { [weak self] in
                 guard let self = self else { return }
                 
-                // 位置情報の許可をリクエスト
-                if self.locationService.authorizationStatus == .notDetermined {
+                // 位置情報の許可状態をチェック
+                switch self.locationService.authorizationStatus {
+                case .notDetermined:
                     self.locationService.requestLocationPermission()
-                    
-                    // 許可の結果を待つ
-                    try await Task.sleep(nanoseconds: 1_000_000_000) // 1秒待機
+                    throw LocationError.permissionNotDetermined
+                case .denied, .restricted:
+                    throw LocationError.permissionDenied
+                case .authorizedWhenInUse, .authorizedAlways:
+                    break
+                @unknown default:
+                    throw LocationError.unknown
                 }
                 
                 // 現在位置を取得
@@ -89,6 +88,19 @@ class WeatherManager: ObservableObject {
         Task {
             await performWeatherRequest { [weak self] in
                 guard let self = self else { return }
+                
+                // 位置情報の許可状態をチェック
+                switch self.locationService.authorizationStatus {
+                case .notDetermined:
+                    self.locationService.requestLocationPermission()
+                    throw LocationError.permissionNotDetermined
+                case .denied, .restricted:
+                    throw LocationError.permissionDenied
+                case .authorizedWhenInUse, .authorizedAlways:
+                    break
+                @unknown default:
+                    throw LocationError.unknown
+                }
                 
                 // 位置情報の取得
                 let location = try await self.locationService.getCurrentLocation()
@@ -134,8 +146,8 @@ class WeatherManager: ObservableObject {
     }
     
     // MARK: - Private Methods
+    
     /// 天気データリクエストの共通処理
-    //　クロージャを引数に取り、非同期で天気データを取得　() -> Void
     private func performWeatherRequest(_ request: () async throws -> Void) async {
         isLoading = true
         errorMessage = ""
