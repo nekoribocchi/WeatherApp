@@ -74,11 +74,6 @@
 				8A50C9BA2DF72B2C0024404E /* ClothesView.swift */,
 				8A0AF6812DF87B6E00E7887F /* WeatherView.swift */,
 				8ABFBEED2DF47C09004013C0 /* ErrorView.swift */,
-				8ADEAE522DFAB72D00A78CB4 /* TestUI.swift */,
-				8ADEAE582DFACC8D00A78CB4 /* ForecastItemView.swift */,
-				8ADEAE5A2DFACCFA00A78CB4 /* WeatherDetailView.swift */,
-				8ADEAE562DFACC6100A78CB4 /* ForecastView.swift */,
-				8ADEAE542DFACC4200A78CB4 /* CurrentWeatherView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -120,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				8A1783302C52063700A08B1B /* WeatherApp.swift */,
+				8ADEAE5E2DFAD6CC00A78CB4 /* TestUI */,
 				8A0AF6852DF9404E00E7887F /* Manager */,
 				8A0AF6842DF9403F00E7887F /* Models */,
 				8ADEAE4D2DFA973400A78CB4 /* Serveices */,
@@ -156,6 +152,18 @@
 				8ADEAE4E2DFAB65900A78CB4 /* LocationService.swift */,
 			);
 			path = Serveices;
+			sourceTree = "<group>";
+		};
+		8ADEAE5E2DFAD6CC00A78CB4 /* TestUI */ = {
+			isa = PBXGroup;
+			children = (
+				8ADEAE522DFAB72D00A78CB4 /* TestUI.swift */,
+				8ADEAE582DFACC8D00A78CB4 /* ForecastItemView.swift */,
+				8ADEAE5A2DFACCFA00A78CB4 /* WeatherDetailView.swift */,
+				8ADEAE562DFACC6100A78CB4 /* ForecastView.swift */,
+				8ADEAE542DFACC4200A78CB4 /* CurrentWeatherView.swift */,
+			);
+			path = TestUI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

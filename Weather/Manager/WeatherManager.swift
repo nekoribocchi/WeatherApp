@@ -55,6 +55,9 @@ class WeatherManager: ObservableObject {
     
     /// 現在の天気を取得
     func getCurrentWeather() {
+        //新しい非同期タスクを作成
+        /// このメソッド自体は同期メソッドだが、内部で非同期処理を実行
+        
         Task {
             await performWeatherRequest { [weak self] in
                 guard let self = self else { return }
@@ -81,7 +84,7 @@ class WeatherManager: ObservableObject {
         }
     }
     
-    /// 5日間の予報を取得
+    /// 3時間予報を取得
     func getForecast() {
         Task {
             await performWeatherRequest { [weak self] in
@@ -131,9 +134,9 @@ class WeatherManager: ObservableObject {
     }
     
     // MARK: - Private Methods
-    
     /// 天気データリクエストの共通処理
-    private func performWeatherRequest(_ request: @escaping () async throws -> Void) async {
+    //　クロージャを引数に取り、非同期で天気データを取得　() -> Void
+    private func performWeatherRequest(_ request: () async throws -> Void) async {
         isLoading = true
         errorMessage = ""
         
