@@ -60,8 +60,6 @@ class LocationService: NSObject, ObservableObject {
             //
             // 4. resume された瞬間、await で待っていた getCurrentLocation() が再開し
             //    呼び出し側へ結果（またはエラー）が返る
-
-
         }
     }
     

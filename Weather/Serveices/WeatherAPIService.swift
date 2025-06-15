@@ -55,7 +55,7 @@ class WeatherAPIService: WeatherAPIServiceProtocol {
         return try await fetchData(from: apiType, responseType: WeatherData.self)
     }
     
-    /// 5日間の予報を取得
+    /// 3時間予報を取得
     func fetchForecast(lat: Double, lon: Double) async throws -> ForecastData {
         let apiType = WeatherAPIType.forecast(lat: lat, lon: lon)
         return try await fetchData(from: apiType, responseType: ForecastData.self)
@@ -64,6 +64,8 @@ class WeatherAPIService: WeatherAPIServiceProtocol {
     // MARK: - Private Methods
     
     /// ジェネリックなデータ取得メソッド
+    //JSONからWeatherData/ForecastDataにデコードするメソッド
+    //T: Coadable Codableに準拠している型じゃないとダメ
     private func fetchData<T: Codable>(
         from apiType: WeatherAPIType,
         responseType: T.Type

@@ -22,7 +22,7 @@ struct TestUI: View {
                         
                         Button("再試行") {
                             weatherManager.clearError()
-                            weatherManager.getCurrentWeather()
+                            refreshCurrentTabData()
                         }
                         .buttonStyle(.borderedProminent)
                     }
@@ -30,8 +30,10 @@ struct TestUI: View {
                     TabView(selection: $selectedTab) {
                         VStack(spacing: 10) {
                             Button("最新の天気を取得") {
+                                print("🌤️ 手動で現在の天気を取得")
                                 weatherManager.getCurrentWeather()
                             }
+                            
                             if let weather = weatherManager.currentWeather {
                                 CurrentWeatherView(weather: weather)
                             } else {
@@ -46,9 +48,16 @@ struct TestUI: View {
                         .tag(0)
                         
                         VStack(spacing: 10) {
+                            // デバッグ情報
+                            Text("予報データ: \(weatherManager.forecastWeather != nil ? "あり" : "なし")")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            
                             Button("5日間予報を取得") {
+                                print("📅 手動で予報を取得")
                                 weatherManager.getForecast()
                             }
+                            
                             if let forecast = weatherManager.forecastWeather {
                                 ForecastView(forecast: forecast)
                             } else {
@@ -62,19 +71,43 @@ struct TestUI: View {
                         }
                         .tag(1)
                     }
+                    .onChange(of: selectedTab) { _, newTab in
+                        // タブが切り替わった時にデータを取得
+                        refreshTabData(for: newTab)
+                    }
                 }
                 
                 Spacer()
             }
             .padding()
             .navigationTitle("天気アプリ")
-        }
-        .onAppear {
+        }    
+    }
+    
+    // MARK: - Helper Methods
+    private func refreshTabData(for tab: Int) {
+        print("🔄 refreshTabData called for tab: \(tab)")
+        switch tab {
+        case 0:
+            // 現在の天気タブ
+            print("🌤️ 現在の天気を取得中...")
             weatherManager.getCurrentWeather()
+        case 1:
+            // 予報タブ
+            print("📅 予報を取得中...")
+            weatherManager.getForecast()
+        default:
+            break
         }
+    }
+    
+    private func refreshCurrentTabData() {
+        print("🔄 refreshCurrentTabData called")
+        refreshTabData(for: selectedTab)
     }
 }
 
 #Preview("Content View - Loading") {
     TestUI()
 }
+

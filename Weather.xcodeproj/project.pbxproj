@@ -140,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				8A0AF6862DF946D400E7887F /* Capsule.swift */,
+				8ADEAE582DFACC8D00A78CB4 /* ForecastItemView.swift */,
 				8ABFBEEB2DF47B9E004013C0 /* GetWeatherView.swift */,
 			);
 			path = Component;
@@ -158,7 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				8ADEAE522DFAB72D00A78CB4 /* TestUI.swift */,
-				8ADEAE582DFACC8D00A78CB4 /* ForecastItemView.swift */,
 				8ADEAE5A2DFACCFA00A78CB4 /* WeatherDetailView.swift */,
 				8ADEAE562DFACC6100A78CB4 /* ForecastView.swift */,
 				8ADEAE542DFACC4200A78CB4 /* CurrentWeatherView.swift */,

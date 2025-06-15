@@ -51,6 +51,7 @@ struct CurrentWeatherView: View {
     }
 }
 
+
 #Preview("Current Weather - Sunny") {
     CurrentWeatherView(weather: WeatherData.mockData)
         .padding()
