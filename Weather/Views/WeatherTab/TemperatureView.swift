@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TempratureView: View {
+struct TemperatureView: View {
     let forecast: ForecastData
     let weather: WeatherData
     
@@ -51,6 +51,6 @@ struct TempratureView: View {
 
 
 #Preview("TempratureView") {
-    TempratureView(forecast: ForecastData.mockData, weather: WeatherData.mockData)
+    TemperatureView(forecast: ForecastData.mockData, weather: WeatherData.mockData)
     
 }

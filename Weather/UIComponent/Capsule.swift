@@ -22,7 +22,7 @@ struct CapsuleView<Content: View>: View {
         } else {
             content
                 .padding()
-                .background(Color.gray.opacity(0.2))
+                .background(Color.gray.opacity(0.1))
                 .cornerRadius(25)
         }
     }

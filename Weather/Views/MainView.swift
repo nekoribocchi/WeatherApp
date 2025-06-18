@@ -28,10 +28,11 @@ struct MainView: View {
                     }
                 } else {
                     TabView(selection: $selectedTab) {
-                        // 現在の天気タブ
+                        // clothesタブ
                         VStack{
                             Button("最新の天気を取得") {
                                 weatherManager.getCurrentWeather()
+   
                             }
                             if let weather = weatherManager.currentWeather {
                                 CurrentWeatherView(weather: weather)
@@ -45,13 +46,14 @@ struct MainView: View {
                             Text("現在の天気")
                         }
                         .tag(0)
-                        
-                        // 予報タブ - WeatherViewを使用
+
+                        // Weatherタブ - WeatherViewを使用
                         WeatherView(weatherManager: weatherManager)
                         .tabItem {
                             Image(systemName: "calendar")
                             Text("3時間予報")
                         }
+                       
                         .tag(1)
                     }
                     .onChange(of: selectedTab) { _, newTab in
@@ -77,6 +79,7 @@ struct MainView: View {
             // 予報タブ
             print("📅 予報を取得中...")
             weatherManager.getForecast()
+            weatherManager.getCurrentWeather()
         default:
             break
         }
