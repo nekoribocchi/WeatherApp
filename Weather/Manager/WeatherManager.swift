@@ -50,7 +50,7 @@ class WeatherManager: ObservableObject {
     
     // MARK: - Public Methods
     
-    /// 現在地の天気を取得
+    /// 現在の天気を取得
     func getCurrentWeather() {
         Task {
             await performWeatherRequest { [weak self] in

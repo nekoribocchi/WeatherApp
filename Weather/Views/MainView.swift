@@ -1,7 +1,7 @@
 // MARK: - ContentView.swift での使用例
 import SwiftUI
 
-struct TestUI: View {
+struct MainView: View {
     @StateObject private var weatherManager = WeatherManager()
     @State private var selectedTab: Int = 0
     
@@ -28,12 +28,10 @@ struct TestUI: View {
                     }
                 } else {
                     TabView(selection: $selectedTab) {
-                        VStack(spacing: 10) {
+                        VStack{
                             Button("最新の天気を取得") {
-                                print("🌤️ 手動で現在の天気を取得")
                                 weatherManager.getCurrentWeather()
                             }
-                            
                             if let weather = weatherManager.currentWeather {
                                 CurrentWeatherView(weather: weather)
                             } else {
@@ -48,14 +46,11 @@ struct TestUI: View {
                         .tag(0)
                         
                         VStack(spacing: 10) {
-                            // デバッグ情報
                             Text("予報データ: \(weatherManager.forecastWeather != nil ? "あり" : "なし")")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                             
-                            Button("5日間予報を取得") {
-                                print("📅 手動で予報を取得")
-                                weatherManager.getForecast()
+                            Button("5日間予報を取得") {                                weatherManager.getForecast()
                             }
                             
                             if let forecast = weatherManager.forecastWeather {
@@ -79,9 +74,7 @@ struct TestUI: View {
                 
                 Spacer()
             }
-            .padding()
-            .navigationTitle("天気アプリ")
-        }    
+        }
     }
     
     // MARK: - Helper Methods
@@ -108,6 +101,6 @@ struct TestUI: View {
 }
 
 #Preview("Content View - Loading") {
-    TestUI()
+    MainView()
 }
 
