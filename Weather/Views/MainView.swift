@@ -28,6 +28,7 @@ struct MainView: View {
                     }
                 } else {
                     TabView(selection: $selectedTab) {
+                        // 現在の天気タブ
                         VStack{
                             Button("最新の天気を取得") {
                                 weatherManager.getCurrentWeather()
@@ -45,21 +46,8 @@ struct MainView: View {
                         }
                         .tag(0)
                         
-                        VStack(spacing: 10) {
-                            Text("予報データ: \(weatherManager.forecastWeather != nil ? "あり" : "なし")")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                            
-                            Button("5日間予報を取得") {                                weatherManager.getForecast()
-                            }
-                            
-                            if let forecast = weatherManager.forecastWeather {
-                                ForecastView(forecast: forecast)
-                            } else {
-                                Text("予報データがありません")
-                                    .foregroundColor(.secondary)
-                            }
-                        }
+                        // 予報タブ - WeatherViewを使用
+                        WeatherView(weatherManager: weatherManager)
                         .tabItem {
                             Image(systemName: "calendar")
                             Text("3時間予報")
