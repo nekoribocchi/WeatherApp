@@ -136,7 +136,6 @@ class UVIndexService: UVIndexServiceProtocol {
             
             // 現在のUV指数を取得
             let uvIndex = weather.currentWeather.uvIndex
-            
             // UV指数データを作成
             let category = UVIndexCategory.category(for: uvIndex.value)
             
@@ -169,14 +168,46 @@ class UVIndexService: UVIndexServiceProtocol {
         return .unknown(error)
     }
 }
+// MARK: - Playground実行部分
 
 #Playground {
-    let uvIndexService = UVIndexService()
-    
-    let  location = CLLocation(latitude: 35.6895, longitude: 139.6917) //
-    let currentUV = try! await uvIndexService.getCurrentUVIndex(for: location)
-    let value = currentUV.value
-    let category = currentUV.category
-    let recommendation = currentUV.recommendation
-
+    // 修正: Task内で非同期処理を実行
+    Task {
+        print("📱 UV指数取得テスト開始")
+        let uvIndexService = UVIndexService()
+        
+        // 東京の座標（新宿）
+        let location = CLLocation(latitude: 35.6895, longitude: 139.6917)
+        
+        do {
+            print("\n🔍 UV指数を取得中...")
+            let currentUV = try await uvIndexService.getCurrentUVIndex(for: location)
+            
+            print("\n✅ 取得成功!")
+            print("📊 結果:")
+            print("  UV指数: \(currentUV.value)")
+            print("  カテゴリ: \(currentUV.category.rawValue)")
+            print("  推奨事項: \(currentUV.recommendation)")
+            print("  取得日時: \(currentUV.date)")
+            
+            // 修正: 各値を個別に確認
+            let value = currentUV.value
+            let category = currentUV.category
+            let recommendation = currentUV.recommendation
+            
+            print("\n🔍 個別値確認:")
+            print("  value = \(value)")
+            print("  category = \(category)")
+            print("  recommendation = \(recommendation)")
+            
+        } catch let error as UVIndexError {
+            print("\n❌ UVIndexError:")
+            print("  エラー: \(error.localizedDescription)")
+        } catch {
+            print("\n❌ その他のエラー:")
+            print("  エラー: \(error)")
+        }
+        
+        print("\n✨ テスト完了")
+    }
 }

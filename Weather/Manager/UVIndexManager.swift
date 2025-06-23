@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import Playgrounds
 
 // MARK: - UV Index Manager
 
@@ -155,5 +156,91 @@ class UVIndexManager: ObservableObject {
         }
         
         isLoading = false
+    }
+}
+// MARK: - Playground実行部分
+
+#Playground {
+    Task {
+        let manager = UVIndexManager()
+        
+        print("📱 UVIndexManager Playground テスト開始")
+
+        
+        // 修正: デバッグ用の状態確認を追加
+
+        print("初期状態 - isLoading: \(manager.isLoading)")
+        print("初期状態 - errorMessage: '\(manager.errorMessage)'")
+        
+        // 現在地のUV指数を取得
+        print("\n🔍 現在地のUV指数を取得...")
+        manager.getCurrentUVIndex()
+        
+        // 修正: ローディング状態を監視
+        var attempts = 0
+        while manager.isLoading && attempts < 10 {
+            print("⏳ ローディング中... (試行 \(attempts + 1))")
+            try await Task.sleep(nanoseconds: 1_000_000_000) // 1秒
+            attempts += 1
+        }
+        
+        // 修正: 取得後の状態確認
+        print("\n📋 取得後の状態:")
+
+        print("isLoading: \(manager.isLoading)")
+        print("errorMessage: '\(manager.errorMessage)'")
+        
+        // エラーがある場合は詳細を表示
+        if !manager.errorMessage.isEmpty {
+            print("❌ エラーが発生しました: \(manager.errorMessage)")
+        }
+        
+        // 少し待機
+        try await Task.sleep(nanoseconds: 2_000_000_000) // 2秒
+        
+        // 指定座標（大阪）のUV指数を取得
+        print("\n🔍 大阪のUV指数を取得...")
+        manager.getCurrentUVIndex(lat: 34.6937, lon: 135.5023)
+        
+        // 修正: 再度ローディング状態を監視
+        attempts = 0
+        while manager.isLoading && attempts < 10 {
+            print("⏳ ローディング中... (試行 \(attempts + 1))")
+            try await Task.sleep(nanoseconds: 1_000_000_000) // 1秒
+            attempts += 1
+        }
+        
+        // 少し待機
+        try await Task.sleep(nanoseconds: 2_000_000_000) // 2秒
+        
+        // 修正: より詳細な結果の表示
+        print("\n📊 最終結果の確認:")
+        print("currentUVIndex is nil: \(manager.currentUVIndex == nil)")
+        
+        if let uvData = manager.currentUVIndex {
+            print("✅ UV指数データが取得できました:")
+            print("UV指数: \(uvData.value)")
+            print("カテゴリ: \(uvData.category.rawValue)")
+            print("色: \(manager.currentUVCategoryColor)")
+            print("推奨事項: \(uvData.recommendation)")
+            print("取得日時: \(uvData.date)")
+        } else {
+            print("❌ UV指数データが取得できませんでした")
+            print("エラーメッセージ: '\(manager.errorMessage)'")
+            
+            // 修正: 手動でテストデータを作成して表示機能をテスト
+            print("\n🧪 テストデータで表示機能をテスト:")
+            let testData = UVIndexData(
+                value: 7,
+                category: .high,
+                date: Date(),
+                recommendation: "テスト用の推奨事項"
+            )
+            print("テストUV指数: \(testData.value)")
+            print("テストカテゴリ: \(testData.category.rawValue)")
+            print("テスト推奨事項: \(testData.recommendation)")
+        }
+        
+        print("\n✨ テスト完了!")
     }
 }
