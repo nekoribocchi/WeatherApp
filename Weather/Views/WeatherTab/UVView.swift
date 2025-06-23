@@ -27,10 +27,6 @@ struct UVIndexView: View {
                 VStack(spacing: 20) {
                     // 現在のUV指数カード
                     currentUVIndexCard
-                    
-                    // 今日のUV指数予報カード
-                    todayForecastCard
-                    
                     // リフレッシュボタン
                     refreshButton
                 }
@@ -39,7 +35,7 @@ struct UVIndexView: View {
             .navigationTitle("UV指数")
             .onAppear {
                 // ビューが表示されたときにデータを取得
-                uvManager.loadAllUVData()
+                uvManager.getCurrentUVIndex()
             }
             .alert("エラー", isPresented: .constant(!uvManager.errorMessage.isEmpty)) {
                 Button("OK") {
@@ -97,70 +93,11 @@ struct UVIndexView: View {
         .cornerRadius(16)
     }
     
-    /// 今日のUV指数予報カード
-    private var todayForecastCard: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HStack {
-                Text("今日の予報")
-                    .font(.headline)
-                
-                Spacer()
-                
-                if let maxUV = uvManager.todayMaxUVIndex {
-                    Text("最大: \(maxUV)")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
-            }
-            
-            if uvManager.isLoading {
-                HStack {
-                    Spacer()
-                    ProgressView()
-                    Spacer()
-                }
-            } else if !uvManager.todayUVForecast.isEmpty {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(spacing: 12) {
-                        ForEach(uvManager.todayUVForecast.indices, id: \.self) { index in
-                            let hourlyUV = uvManager.todayUVForecast[index]
-                            
-                            VStack(spacing: 8) {
-                                Text(hourlyUV.hour, formatter: hourFormatter)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                
-                                Text("\(hourlyUV.uvIndex)")
-                                    .font(.title3)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(colorForCategory(hourlyUV.category))
-                                
-                                Circle()
-                                    .fill(colorForCategory(hourlyUV.category))
-                                    .frame(width: 8, height: 8)
-                            }
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 12)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(12)
-                        }
-                    }
-                    .padding(.horizontal)
-                }
-            } else {
-                Text("予報データが取得できませんでした")
-                    .foregroundColor(.secondary)
-            }
-        }
-        .padding()
-        .background(Color(.systemGray6))
-        .cornerRadius(16)
-    }
     
     /// リフレッシュボタン
     private var refreshButton: some View {
         Button(action: {
-            uvManager.loadAllUVData()
+            uvManager.getCurrentUVIndex()
         }) {
             HStack {
                 Image(systemName: "arrow.clockwise")

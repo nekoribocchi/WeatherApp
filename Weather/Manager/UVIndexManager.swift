@@ -24,9 +24,6 @@ class UVIndexManager: ObservableObject {
     /// 現在のUV指数データ（SwiftUIでバインド可能）
     @Published var currentUVIndex: UVIndexData?
     
-    /// 今日のUV指数予報（SwiftUIでバインド可能）
-    @Published var todayUVForecast: [HourlyUVIndex] = []
-    
     /// ローディング状態（SwiftUIでバインド可能）
     @Published var isLoading = false
     
@@ -76,27 +73,6 @@ class UVIndexManager: ObservableObject {
         }
     }
     
-    /// 今日一日のUV指数予報を取得
-    /// - 位置情報の許可確認→位置取得→UV指数予報取得の順で実行
-    func getTodayUVForecast() {
-        Task {
-            await performUVRequest { [weak self] in
-                guard let self = self else { return }
-                
-                // 位置情報の許可状態をチェック
-                try await self.checkLocationPermission()
-                
-                // 現在位置を取得
-                let location = try await self.locationService.getCurrentLocation()
-                
-                // UV指数予報データを取得
-                let uvForecast = try await self.uvIndexService.getTodayUVIndexForecast(for: location)
-                
-                self.todayUVForecast = uvForecast
-            }
-        }
-    }
-    
     /// 指定した座標のUV指数を取得
     /// - Parameters:
     ///   - lat: 緯度
@@ -110,49 +86,6 @@ class UVIndexManager: ObservableObject {
                 let uvData = try await self.uvIndexService.getCurrentUVIndex(for: location)
                 
                 self.currentUVIndex = uvData
-            }
-        }
-    }
-    
-    /// 指定した座標の今日のUV指数予報を取得
-    /// - Parameters:
-    ///   - lat: 緯度
-    ///   - lon: 経度
-    func getTodayUVForecast(lat: Double, lon: Double) {
-        Task {
-            await performUVRequest { [weak self] in
-                guard let self = self else { return }
-                
-                let location = CLLocation(latitude: lat, longitude: lon)
-                let uvForecast = try await self.uvIndexService.getTodayUVIndexForecast(for: location)
-                
-                self.todayUVForecast = uvForecast
-            }
-        }
-    }
-    
-    /// 現在のUV指数と今日の予報を同時に取得
-    /// - 効率的にデータを一度に取得するメソッド
-    func loadAllUVData() {
-        Task {
-            await performUVRequest { [weak self] in
-                guard let self = self else { return }
-                
-                // 位置情報の許可状態をチェック
-                try await self.checkLocationPermission()
-                
-                // 現在位置を取得
-                let location = try await self.locationService.getCurrentLocation()
-                
-                // 現在のUV指数と予報を並行して取得
-                async let currentUV = self.uvIndexService.getCurrentUVIndex(for: location)
-                async let forecastUV = self.uvIndexService.getTodayUVIndexForecast(for: location)
-                
-                // 結果を待機して設定
-                let (current, forecast) = try await (currentUV, forecastUV)
-                
-                self.currentUVIndex = current
-                self.todayUVForecast = forecast
             }
         }
     }
@@ -183,12 +116,6 @@ class UVIndexManager: ObservableObject {
         case .extreme:
             return "purple"
         }
-    }
-    
-    /// 今日の最大UV指数を取得
-    /// - 今日の予報データから最大値を計算
-    var todayMaxUVIndex: Int? {
-        todayUVForecast.map(\.uvIndex).max()
     }
     
     // MARK: - Private Methods

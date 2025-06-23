@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Playgrounds
 
 // MARK: - Weather API Service
 
@@ -138,3 +139,9 @@ class WeatherAPIService: WeatherAPIServiceProtocol {
     }
 }
 
+
+#Playground {
+    let service = WeatherAPIService(apiKey: "YOUR_API_KEY")
+    let weather = try await service.fetchCurrentWeather(lat: 35.6895, lon: 139.6917)
+    let forecast = try await service.fetchForecast(lat: 35.6895, lon: 139.6917)
+}

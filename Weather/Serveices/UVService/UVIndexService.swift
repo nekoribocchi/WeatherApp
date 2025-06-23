@@ -8,6 +8,7 @@
 import Foundation
 import CoreLocation
 import WeatherKit
+import Playgrounds
 
 // MARK: - UV Index Service Protocol
 
@@ -20,12 +21,6 @@ protocol UVIndexServiceProtocol {
     /// - Returns: UV指数の値
     /// - Throws: UVIndexError
     func getCurrentUVIndex(for location: CLLocation) async throws -> UVIndexData
-    
-    /// 今日一日のUV指数予報を取得
-    /// - Parameter location: 位置情報
-    /// - Returns: 時間別UV指数配列
-    /// - Throws: UVIndexError
-    func getTodayUVIndexForecast(for location: CLLocation) async throws -> [HourlyUVIndex]
 }
 
 // MARK: - UV Index Data Models
@@ -43,18 +38,6 @@ struct UVIndexData {
     
     /// 推奨事項
     let recommendation: String
-}
-
-/// 時間別UV指数データ
-struct HourlyUVIndex {
-    /// 時刻
-    let hour: Date
-    
-    /// UV指数
-    let uvIndex: Int
-    
-    /// UV指数カテゴリ
-    let category: UVIndexCategory
 }
 
 /// UV指数のカテゴリを定義する列挙型
@@ -169,42 +152,6 @@ class UVIndexService: UVIndexServiceProtocol {
         }
     }
     
-    /// 今日一日のUV指数予報を取得
-    /// - Parameter location: CLLocation（緯度・経度情報）
-    /// - Returns: 時間別UV指数の配列
-    /// - Throws: UVIndexError
-    func getTodayUVIndexForecast(for location: CLLocation) async throws -> [HourlyUVIndex] {
-        do {
-            // 今日の日付範囲を作成
-            let calendar = Calendar.current
-            let now = Date()
-            let startOfDay = calendar.startOfDay(for: now)
-            let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? now
-            
-            // WeatherKitから時間別予報を取得
-            let weather = try await weatherService.weather(
-                for: location,
-                including: .hourly(startDate: startOfDay, endDate: endOfDay)
-            )
-            
-            // 時間別UV指数データを作成
-            let hourlyUVData = weather.map { hourlyWeather -> HourlyUVIndex in
-                let uvIndex = hourlyWeather.uvIndex
-                let category = UVIndexCategory.category(for: uvIndex.value)
-                return HourlyUVIndex(
-                    hour: hourlyWeather.date,
-                    uvIndex: uvIndex.value,
-                    category: category
-                )
-            }
-            
-            return Array(hourlyUVData)
-            
-        } catch {
-            throw mapWeatherKitError(error)
-        }
-    }
-    
     // MARK: - Private Methods
     
     /// WeatherKitのエラーをUVIndexErrorにマッピング
@@ -221,4 +168,15 @@ class UVIndexService: UVIndexServiceProtocol {
         }
         return .unknown(error)
     }
+}
+
+#Playground {
+    let uvIndexService = UVIndexService()
+    
+    let  location = CLLocation(latitude: 35.6895, longitude: 139.6917) //
+    let currentUV = try! await uvIndexService.getCurrentUVIndex(for: location)
+    let value = currentUV.value
+    let category = currentUV.category
+    let recommendation = currentUV.recommendation
+
 }
