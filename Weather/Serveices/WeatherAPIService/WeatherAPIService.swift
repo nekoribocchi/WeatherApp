@@ -13,14 +13,12 @@ import Playgrounds
 protocol WeatherAPIServiceProtocol {
     func fetchCurrentWeather(lat: Double, lon: Double) async throws -> WeatherData
     func fetchForecast(lat: Double, lon: Double) async throws -> ForecastData
+    func fetchUV(lat: Double, lon: Double) async throws -> UVData
 }
 
 // MARK: - Weather API Service
 
 /// OpenWeatherMap APIとの通信を担当するサービスクラス
-/// - WeatherAPIServiceProtocolに準拠
-/// - ジェネリクスを使用してコードの重複を削減
-/// - エラーハンドリングを統一化
 class WeatherAPIService: WeatherAPIServiceProtocol {
     
     // MARK: - Properties
@@ -66,9 +64,6 @@ class WeatherAPIService: WeatherAPIServiceProtocol {
     }
     
     // MARK: - Private Methods
-    
-    /// ジェネリックなデータ取得メソッド
-    /// - 修正: HTTPステータスコード処理を別メソッドに分離（単一責任原則）
     /// - JSONからWeatherData/ForecastDataにデコードするメソッド
     /// - T: Codable Codableに準拠している型じゃないとダメ
     /// - Parameters:
@@ -92,13 +87,10 @@ class WeatherAPIService: WeatherAPIServiceProtocol {
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw WeatherAPIError.invalidResponse
             }
-            
-            // 修正: HTTPステータスコード処理を別メソッドに分離
             try validateHTTPResponse(httpResponse)
             
             return try decoder.decode(responseType, from: data)
         } catch {
-            // 修正: エラー処理を別メソッドに分離
             throw mapError(error)
         }
     }
@@ -141,7 +133,8 @@ class WeatherAPIService: WeatherAPIServiceProtocol {
 
 
 #Playground {
-    let service = WeatherAPIService(apiKey: "YOUR_API_KEY")
+    let apiKey =  WeatherManager.getAPIKey()
+    let service = WeatherAPIService(apiKey: apiKey)
     let weather = try await service.fetchCurrentWeather(lat: 35.6895, lon: 139.6917)
     let forecast = try await service.fetchForecast(lat: 35.6895, lon: 139.6917)
 }

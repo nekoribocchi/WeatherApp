@@ -46,7 +46,6 @@ class WeatherManager: ObservableObject {
         apiService: WeatherAPIServiceProtocol? = nil,
         locationService: LocationServiceProtocol? = nil
     ) {
-        // 修正: APIキー取得ロジックを別メソッドに分離（単一責任原則）
         let apiKey = Self.getAPIKey()
         
         // 依存性の注入（テスト時にモックを注入可能）
@@ -144,7 +143,7 @@ class WeatherManager: ObservableObject {
     /// APIキーを取得
     /// - Returns: OpenWeatherMap APIキー
     /// - Note: Config.plistから取得、見つからない場合はfatalError
-    private static func getAPIKey() -> String {
+    static func getAPIKey() -> String {
         guard let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
               let plist = NSDictionary(contentsOfFile: path),
               let key = plist["OpenWeatherAPIKey"] as? String,
