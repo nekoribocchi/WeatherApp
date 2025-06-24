@@ -14,20 +14,23 @@ import Foundation
 enum WeatherAPIType {
     case current(lat: Double, lon: Double)
     case forecast(lat: Double, lon: Double)
+    case uv(lat: Double, lon: Double)
     
     /// APIキーを使用してリクエストURLを生成
     /// - Parameter apiKey: OpenWeatherMap APIキー
     /// - Returns: 完全なリクエストURL文字列
     func url(apiKey: String) -> String {
-        let baseURL = "https://api.openweathermap.org/data/2.5"
-        // 修正: 共通パラメータを定数として抽出（冗長性の削減）
+        let baseURL2_5 = "https://api.openweathermap.org/data/2.5"
+        let baseURL3 = "https://api.openweathermap.org/data/3.0/onecall?"
         let commonParams = "&appid=\(apiKey)&units=metric&lang=ja"
-        
+
         switch self {
         case .current(let lat, let lon):
-            return "\(baseURL)/weather?lat=\(lat)&lon=\(lon)\(commonParams)"
+            return "\(baseURL2_5)/weather?lat=\(lat)&lon=\(lon)\(commonParams)"
         case .forecast(let lat, let lon):
-            return "\(baseURL)/forecast?lat=\(lat)&lon=\(lon)\(commonParams)"
+            return "\(baseURL2_5)/forecast?lat=\(lat)&lon=\(lon)\(commonParams)"
+        case .uv(let lat, let lon):
+            return "\(baseURL3)lat=\(lat)&lon=\(lon)&appid=\(apiKey)"
         }
     }
 }
