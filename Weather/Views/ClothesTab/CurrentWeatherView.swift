@@ -10,6 +10,7 @@ import SwiftUI
 // MARK: - CurrentWeatherView
 struct CurrentWeatherView: View {
     let weather: WeatherData
+    @ObservedObject private var weatherManager = WeatherManager.shared
     
     var body: some View {
         ZStack {
@@ -44,7 +45,10 @@ struct CurrentWeatherView: View {
                             .font(.callout)
                         
                     }
-                
+                    CapsuleView{
+                        Text("UV: \(weatherManager.currentUV?.current.first?.uvi ?? 0.0)")
+                    }
+    
                 }
             }
         }
@@ -59,3 +63,4 @@ struct CurrentWeatherView: View {
 #Preview("Current Weather - Rainy") {
     CurrentWeatherView(weather: WeatherData.mockRainyData)
 }
+

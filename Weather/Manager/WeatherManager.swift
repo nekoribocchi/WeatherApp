@@ -16,12 +16,12 @@ import CoreLocation
 /// - 位置情報サービスとAPIサービスを統合
 @MainActor
 class WeatherManager: ObservableObject {
-    
+    static let shared = WeatherManager()
     // MARK: - Published Properties
     
     /// 取得した現在の天気データ（SwiftUIでバインド可能）
     @Published var currentWeather: WeatherData?
-    
+    @Published var currentUV: UVData?
     /// 取得した予報データ（SwiftUIでバインド可能）
     @Published var forecastWeather: ForecastData?
     
@@ -74,7 +74,12 @@ class WeatherManager: ObservableObject {
                     lon: location.coordinate.longitude
                 )
                 
+                let uvData = try await self.apiService.fetchUV(
+                    lat: location.coordinate.latitude,
+                    lon: location.coordinate.longitude
+                )
                 self.currentWeather = weatherData
+                self.currentUV = uvData
             }
         }
     }

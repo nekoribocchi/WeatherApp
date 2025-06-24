@@ -8,17 +8,12 @@
 import Foundation
 // MARK: - Weather API Types
 
-/// 天気APIのエンドポイントタイプを定義する列挙型
-/// - 各APIエンドポイントに対応するケースを持つ
-/// - URLの生成ロジックを一元化することで保守性を向上
+// This method return url tailored to each case
 enum WeatherAPIType {
     case current(lat: Double, lon: Double)
     case forecast(lat: Double, lon: Double)
     case uv(lat: Double, lon: Double)
     
-    /// APIキーを使用してリクエストURLを生成
-    /// - Parameter apiKey: OpenWeatherMap APIキー
-    /// - Returns: 完全なリクエストURL文字列
     func url(apiKey: String) -> String {
         let baseURL2_5 = "https://api.openweathermap.org/data/2.5"
         let baseURL3 = "https://api.openweathermap.org/data/3.0/onecall?"

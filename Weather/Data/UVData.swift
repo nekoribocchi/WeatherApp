@@ -6,8 +6,12 @@
 //
 
 import Foundation
-struct UVData {
-    struct current{
-        let uvi:Double
+struct UVData: Codable {
+    let current: [Current]
+    
+    struct Current: Codable {
+        let uvi: Double
     }
+    
+    
 }

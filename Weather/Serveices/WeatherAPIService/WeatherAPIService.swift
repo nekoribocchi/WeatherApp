@@ -20,12 +20,11 @@ protocol WeatherAPIServiceProtocol {
 
 /// OpenWeatherMap APIとの通信を担当するサービスクラス
 class WeatherAPIService: WeatherAPIServiceProtocol {
-    
+
     // MARK: - Properties
     
     private let apiKey: String
     private let session: URLSession
-    // 修正: JSONDecoderを再利用可能なプロパティとして定義（オブジェクトの再作成を避ける）
     private let decoder = JSONDecoder()
     
     // MARK: - Initializer
@@ -52,15 +51,14 @@ class WeatherAPIService: WeatherAPIServiceProtocol {
         return try await fetchData(from: apiType, responseType: WeatherData.self)
     }
     
-    /// 3時間予報を取得
-    /// - Parameters:
-    ///   - lat: 緯度
-    ///   - lon: 経度
-    /// - Returns: ForecastData構造体
-    /// - Throws: WeatherAPIError
     func fetchForecast(lat: Double, lon: Double) async throws -> ForecastData {
         let apiType = WeatherAPIType.forecast(lat: lat, lon: lon)
         return try await fetchData(from: apiType, responseType: ForecastData.self)
+    }
+    
+    func fetchUV(lat: Double, lon: Double) async throws -> UVData {
+        let apiType = WeatherAPIType.uv(lat: lat, lon: lon)
+        return try await fetchData(from: apiType, responseType: UVData.self)
     }
     
     // MARK: - Private Methods
