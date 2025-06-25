@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UVView: View {
-    let uv: UVData
+    let uv: OneCallAPI30
     
     var body: some View {
         CapsuleView {

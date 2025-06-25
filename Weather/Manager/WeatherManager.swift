@@ -22,7 +22,7 @@ class WeatherManager: ObservableObject {
     /// 取得した現在の天気データ（SwiftUIでバインド可能）
     @Published var currentWeather: WeatherData?
     
-    @Published var currentUV: UVData?
+    @Published var currentUV: OneCallAPI30?
     /// 取得した予報データ（SwiftUIでバインド可能）
     @Published var forecastWeather: ForecastData?
     
@@ -75,12 +75,12 @@ class WeatherManager: ObservableObject {
                     lon: location.coordinate.longitude
                 )
                 
-                let uvData = try await self.apiService.fetchUV(
+                let oneCallAPI30 = try await self.apiService.fetchUV(
                     lat: location.coordinate.latitude,
                     lon: location.coordinate.longitude
                 )
                 self.currentWeather = weatherData
-                self.currentUV = uvData
+                self.currentUV = oneCallAPI30
             }
         }
     }
