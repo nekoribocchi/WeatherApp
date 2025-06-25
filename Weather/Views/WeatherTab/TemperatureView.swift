@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct TemperatureView: View {
-    let forecast: ForecastData
-    let weather: WeatherData
+    let forecast: ForecastAPI25
+    let weather: CurrentWeatherAPI25
     
     var body: some View {
         VStack{
@@ -51,6 +51,6 @@ struct TemperatureView: View {
 
 
 #Preview("TempratureView") {
-    TemperatureView(forecast: ForecastData.mockData, weather: WeatherData.mockData)
+    TemperatureView(forecast: ForecastAPI25.mockData, weather: CurrentWeatherAPI25.mockData)
     
 }

@@ -20,11 +20,11 @@ class WeatherManager: ObservableObject {
     // MARK: - Published Properties
     
     /// 取得した現在の天気データ（SwiftUIでバインド可能）
-    @Published var currentWeather: WeatherData?
+    @Published var currentWeather: CurrentWeatherAPI25?
     
     @Published var currentUV: OneCallAPI30?
     /// 取得した予報データ（SwiftUIでバインド可能）
-    @Published var forecastWeather: ForecastData?
+    @Published var forecastWeather: ForecastAPI25?
     
     /// ローディング状態（SwiftUIでバインド可能）
     @Published var isLoading = false
@@ -70,7 +70,7 @@ class WeatherManager: ObservableObject {
                 let location = try await self.locationService.getCurrentLocation()
                 
                 // 天気データを取得
-                let weatherData = try await self.apiService.fetchCurrentWeather(
+                let currentWeatherAPI25 = try await self.apiService.fetchCurrentWeather(
                     lat: location.coordinate.latitude,
                     lon: location.coordinate.longitude
                 )
@@ -79,7 +79,7 @@ class WeatherManager: ObservableObject {
                     lat: location.coordinate.latitude,
                     lon: location.coordinate.longitude
                 )
-                self.currentWeather = weatherData
+                self.currentWeather = currentWeatherAPI25
                 self.currentUV = oneCallAPI30
             }
         }
@@ -99,12 +99,12 @@ class WeatherManager: ObservableObject {
                 let location = try await self.locationService.getCurrentLocation()
                 
                 // 予報データを取得
-                let forecastData = try await self.apiService.fetchForecast(
+                let forecastAPI25 = try await self.apiService.fetchForecast(
                     lat: location.coordinate.latitude,
                     lon: location.coordinate.longitude
                 )
                 
-                self.forecastWeather = forecastData
+                self.forecastWeather = forecastAPI25
             }
         }
     }
@@ -118,8 +118,8 @@ class WeatherManager: ObservableObject {
             await performWeatherRequest { [weak self] in
                 guard let self = self else { return }
                 
-                let weatherData = try await self.apiService.fetchCurrentWeather(lat: lat, lon: lon)
-                self.currentWeather = weatherData
+                let currentWeatherAPI25 = try await self.apiService.fetchCurrentWeather(lat: lat, lon: lon)
+                self.currentWeather = currentWeatherAPI25
             }
         }
     }
@@ -133,8 +133,8 @@ class WeatherManager: ObservableObject {
             await performWeatherRequest { [weak self] in
                 guard let self = self else { return }
                 
-                let forecastData = try await self.apiService.fetchForecast(lat: lat, lon: lon)
-                self.forecastWeather = forecastData
+                let forecastAPI25 = try await self.apiService.fetchForecast(lat: lat, lon: lon)
+                self.forecastWeather = forecastAPI25
             }
         }
     }

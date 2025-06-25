@@ -15,7 +15,7 @@ import SwiftUI
 
 // MARK: - ForecastView
 struct ForecastView: View {
-    let forecast: ForecastData
+    let forecast: ForecastAPI25
     
     var body: some View {
         CapsuleView {
@@ -40,6 +40,6 @@ struct ForecastView: View {
 }
 
 #Preview("Forecast View") {
-    ForecastView(forecast: ForecastData.mockData)
+    ForecastView(forecast: ForecastAPI25.mockData)
         .padding()
 }

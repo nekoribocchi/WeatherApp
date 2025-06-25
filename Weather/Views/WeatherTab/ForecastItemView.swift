@@ -10,7 +10,7 @@ import SwiftUI
 
 /// MARK: - ForecastItemView
 struct ForecastItemView: View {
-    let item: ForecastData.ForecastItem
+    let item: ForecastAPI25.ForecastItem
     
     var body: some View {
         VStack(spacing: 8) {
@@ -56,20 +56,20 @@ struct ForecastItemView: View {
 }
 
 #Preview("Forecast Item - Sunny") {
-    ForecastItemView(item: ForecastData.ForecastItem.mockSunnyItem)
+    ForecastItemView(item: ForecastAPI25.ForecastItem.mockSunnyItem)
         .padding()
 }
 
 #Preview("Forecast Item - Cloudy") {
-    ForecastItemView(item: ForecastData.ForecastItem.mockCloudyItem)
+    ForecastItemView(item: ForecastAPI25.ForecastItem.mockCloudyItem)
         .padding()
 }
 
 #Preview("Forecast Items - Multiple") {
     HStack {
-        ForecastItemView(item: ForecastData.ForecastItem.mockSunnyItem)
-        ForecastItemView(item: ForecastData.ForecastItem.mockCloudyItem)
-        ForecastItemView(item: ForecastData.ForecastItem.mockRainyItem)
+        ForecastItemView(item: ForecastAPI25.ForecastItem.mockSunnyItem)
+        ForecastItemView(item: ForecastAPI25.ForecastItem.mockCloudyItem)
+        ForecastItemView(item: ForecastAPI25.ForecastItem.mockRainyItem)
     }
     .padding()
 }

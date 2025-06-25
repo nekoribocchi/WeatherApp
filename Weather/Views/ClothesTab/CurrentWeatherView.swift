@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - CurrentWeatherView
 struct CurrentWeatherView: View {
-    let weather: WeatherData
+    let weather: CurrentWeatherAPI25
     var body: some View {
         ZStack {
             LinearGradient(gradient: Gradient(colors: [.blue, .white]), startPoint: .top, endPoint: .bottom)

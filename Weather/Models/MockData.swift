@@ -8,8 +8,8 @@
 import Foundation
 // MARK: - Mock Data Extensions for Previews
 
-extension WeatherData {
-    static let mockData = WeatherData(
+extension CurrentWeatherAPI25 {
+    static let mockData = CurrentWeatherAPI25(
         name: "東京",
         main: Main(
             temp: 25.0,
@@ -32,7 +32,7 @@ extension WeatherData {
         timezone: 32400
     )
     
-    static let mockRainyData = WeatherData(
+    static let mockRainyData = CurrentWeatherAPI25(
         name: "大阪",
         main: Main(
             temp: 18.0,
@@ -56,9 +56,9 @@ extension WeatherData {
     )
 }
 
-// MARK: - Mock Data(ForecastData)
-extension ForecastData {
-    static let mockData = ForecastData(
+// MARK: - Mock Data(ForecastAPI25)
+extension ForecastAPI25 {
+    static let mockData = ForecastAPI25(
         cod: "200",
         message: 0,
         cnt: 5,
@@ -81,7 +81,7 @@ extension ForecastData {
         )
     )
     
-    static let mockEmptyData = ForecastData(
+    static let mockEmptyData = ForecastAPI25(
         cod: "200",
         message: 0,
         cnt: 0,
@@ -99,8 +99,8 @@ extension ForecastData {
     )
 }
 
-extension ForecastData.ForecastItem {
-    static let mockSunnyItem = ForecastData.ForecastItem(
+extension ForecastAPI25.ForecastItem {
+    static let mockSunnyItem = ForecastAPI25.ForecastItem(
         dt: Int(Date().timeIntervalSince1970) + 86400,
         main: Main(
             temp: 26.0,
@@ -128,7 +128,7 @@ extension ForecastData.ForecastItem {
         dt_txt: "2024-06-13 12:00:00"
     )
     
-    static let mockCloudyItem = ForecastData.ForecastItem(
+    static let mockCloudyItem = ForecastAPI25.ForecastItem(
         dt: Int(Date().timeIntervalSince1970) + 172800,
         main: Main(
             temp: 22.0,
@@ -156,7 +156,7 @@ extension ForecastData.ForecastItem {
         dt_txt: "2024-06-14 12:00:00"
     )
     
-    static let mockRainyItem = ForecastData.ForecastItem(
+    static let mockRainyItem = ForecastAPI25.ForecastItem(
         dt: Int(Date().timeIntervalSince1970) + 259200,
         main: Main(
             temp: 19.0,

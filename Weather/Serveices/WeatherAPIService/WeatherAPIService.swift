@@ -11,8 +11,8 @@ import Playgrounds
 // MARK: - Weather API Service
 
 protocol WeatherAPIServiceProtocol {
-    func fetchCurrentWeather(lat: Double, lon: Double) async throws -> WeatherData
-    func fetchForecast(lat: Double, lon: Double) async throws -> ForecastData
+    func fetchCurrentWeather(lat: Double, lon: Double) async throws -> CurrentWeatherAPI25
+    func fetchForecast(lat: Double, lon: Double) async throws -> ForecastAPI25
     func fetchUV(lat: Double, lon: Double) async throws -> OneCallAPI30
 }
 
@@ -44,16 +44,16 @@ class WeatherAPIService: WeatherAPIServiceProtocol {
     /// - Parameters:
     ///   - lat: 緯度
     ///   - lon: 経度
-    /// - Returns: WeatherData構造体
+    /// - Returns: CurrentWeatherAPI25構造体
     /// - Throws: WeatherAPIError
-    func fetchCurrentWeather(lat: Double, lon: Double) async throws -> WeatherData {
+    func fetchCurrentWeather(lat: Double, lon: Double) async throws -> CurrentWeatherAPI25 {
         let apiType = WeatherAPIType.current(lat: lat, lon: lon)
-        return try await fetchData(from: apiType, responseType: WeatherData.self)
+        return try await fetchData(from: apiType, responseType: CurrentWeatherAPI25.self)
     }
     
-    func fetchForecast(lat: Double, lon: Double) async throws -> ForecastData {
+    func fetchForecast(lat: Double, lon: Double) async throws -> ForecastAPI25 {
         let apiType = WeatherAPIType.forecast(lat: lat, lon: lon)
-        return try await fetchData(from: apiType, responseType: ForecastData.self)
+        return try await fetchData(from: apiType, responseType: ForecastAPI25.self)
     }
     
     func fetchUV(lat: Double, lon: Double) async throws -> OneCallAPI30 {
@@ -62,7 +62,7 @@ class WeatherAPIService: WeatherAPIServiceProtocol {
     }
     
     // MARK: - Private Methods
-    /// - JSONからWeatherData/ForecastDataにデコードするメソッド
+    /// - JSONからCurrentWeatherAPI25/ForecastAPI25にデコードするメソッド
     /// - T: Codable Codableに準拠している型じゃないとダメ
     /// - Parameters:
     ///   - apiType: APIタイプ（現在の天気 or 予報）

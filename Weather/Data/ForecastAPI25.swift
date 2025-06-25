@@ -1,5 +1,5 @@
 //
-//  ForecastData.swift
+//  ForecastAPI25.swift
 //  Weather
 //
 //  Created by nekoribocchi on 2025/06/25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ForecastData: Codable {
+struct ForecastAPI25: Codable {
     let cod: String
     let message: Int
     let cnt: Int

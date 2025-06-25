@@ -49,7 +49,7 @@ struct MainView: View {
                         .tag(0)
 
                         // Weatherタブ - WeatherViewを使用
-                        WeatherView(weatherManager: weatherManager)
+                        WeatherView(weatherManager: weatherManager, )
                         .tabItem {
                             Image(systemName: "calendar")
                             Text("3時間予報")
