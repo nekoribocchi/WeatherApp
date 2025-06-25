@@ -22,10 +22,11 @@ struct WeatherView: View {
                 // 気温データの表示
                 if let forecast = weatherManager.forecastWeather,
                    let weather = weatherManager.currentWeather,
-                   let uv = weatherManager.currentUV {
+                  let _ = weatherManager.oneCallAPI30 {
                     VStack{
                         TemperatureView(forecast: forecast, weather: weather)
-                        UVView(uv: weatherManager.currentUV!)
+                        UVView(uv: weatherManager.oneCallAPI30!)
+                        PopView(pop: weatherManager.oneCallAPI30!)
                     }
                 } else {
                     VStack {

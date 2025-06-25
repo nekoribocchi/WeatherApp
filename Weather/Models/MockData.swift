@@ -16,8 +16,6 @@ extension CurrentWeatherAPI25 {
             feels_like: 27.0,
             temp_min: 20.0,
             temp_max: 30.0,
-            pressure: 1013,
-            humidity: 60
         ),
         weather: [
             Weather(
@@ -27,9 +25,7 @@ extension CurrentWeatherAPI25 {
                 icon: "01d"
             )
         ],
-        wind: Wind(speed: 3.5, deg: 180),
         dt: Int(Date().timeIntervalSince1970),
-        timezone: 32400
     )
     
     static let mockRainyData = CurrentWeatherAPI25(
@@ -39,8 +35,6 @@ extension CurrentWeatherAPI25 {
             feels_like: 16.0,
             temp_min: 15.0,
             temp_max: 22.0,
-            pressure: 1008,
-            humidity: 85
         ),
         weather: [
             Weather(
@@ -50,9 +44,7 @@ extension CurrentWeatherAPI25 {
                 icon: "10d"
             )
         ],
-        wind: Wind(speed: 2.1, deg: 90),
         dt: Int(Date().timeIntervalSince1970),
-        timezone: 32400
     )
 }
 

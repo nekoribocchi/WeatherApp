@@ -22,7 +22,7 @@ class WeatherManager: ObservableObject {
     /// 取得した現在の天気データ（SwiftUIでバインド可能）
     @Published var currentWeather: CurrentWeatherAPI25?
     
-    @Published var currentUV: OneCallAPI30?
+    @Published var oneCallAPI30: OneCallAPI30?
     /// 取得した予報データ（SwiftUIでバインド可能）
     @Published var forecastWeather: ForecastAPI25?
     
@@ -35,7 +35,7 @@ class WeatherManager: ObservableObject {
     // MARK: - Private Properties
     
     private let apiService: WeatherAPIServiceProtocol
-    private let locationService: LocationServiceProtocol
+    private let locationService: any LocationServiceProtocol
     
     // MARK: - Initializer
     
@@ -45,7 +45,7 @@ class WeatherManager: ObservableObject {
     ///   - locationService: 位置情報サービス（テスト時にモック注入可能）
     init(
         apiService: WeatherAPIServiceProtocol? = nil,
-        locationService: LocationServiceProtocol? = nil
+        locationService: (any LocationServiceProtocol)? = nil
     ) {
         let apiKey = Self.getAPIKey()
         
@@ -80,7 +80,7 @@ class WeatherManager: ObservableObject {
                     lon: location.coordinate.longitude
                 )
                 self.currentWeather = currentWeatherAPI25
-                self.currentUV = oneCallAPI30
+                self.oneCallAPI30 = oneCallAPI30
             }
         }
     }

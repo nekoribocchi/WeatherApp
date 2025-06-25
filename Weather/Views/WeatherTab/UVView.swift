@@ -12,7 +12,7 @@ struct UVView: View {
     
     var body: some View {
         CapsuleView {
-            Text("UV: \(uv.current.uvi ?? -1.0)")
+            Text("UV: \(uv.current.uvi)")
         }
     }
 }
