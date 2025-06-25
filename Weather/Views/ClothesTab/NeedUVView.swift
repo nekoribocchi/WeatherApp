@@ -1,0 +1,34 @@
+//  NeedUVView.swift
+//  Weather
+//
+//  Created by nekoribocchi on 2025/06/25.
+//
+
+import SwiftUI
+
+struct NeedUVView: View {
+    let uv: OneCallAPI30
+    
+    var body: some View {
+        if uv.current.uvi > 3 {
+            ZStack {
+                Circle()
+                    .fill(.white)
+                    .frame(width: 100, height: 100)
+                    .shadow(radius: 5)
+                VStack(spacing: 4) {
+                    Image(systemName: "sunglasses.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.black)
+                    
+                }
+            }
+            .accessibilityLabel("High UV index. Sunscreen recommended.")
+        } else {
+            EmptyView()
+        }
+    }
+}
+

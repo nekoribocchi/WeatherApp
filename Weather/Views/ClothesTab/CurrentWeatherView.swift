@@ -10,6 +10,7 @@ import SwiftUI
 // MARK: - CurrentWeatherView
 struct CurrentWeatherView: View {
     let weather: CurrentWeatherAPI25
+    let OneCall: OneCallAPI30
     var body: some View {
         ZStack {
             LinearGradient(gradient: Gradient(colors: [.blue, .white]), startPoint: .top, endPoint: .bottom)
@@ -22,29 +23,8 @@ struct CurrentWeatherView: View {
                         .font(.callout)
                 }
                 HStack {
-                    /*
-                    CapsuleView {
-                        AsyncImage(url: URL(string: "https://openweathermap.org/img/wn/\(weather.weather.first?.icon ?? "01d")@2x.png")) { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                        } placeholder: {
-                            ProgressView()
-                        }
-                        .frame(width: 30, height: 30)
-                    }
-                     */
-                    CapsuleView{
-                        Image(systemName: "cloud")
-                            .font(.system(size: 23))
-                    }
-                    CapsuleView {
-                        Text("\(Int(weather.main.temp))℃")
-                            .font(.callout)
-                        
-                    }
-                  
-    
+                    NeedUVView(uv: OneCall)
+                    NeedUmbrellaView(rain: OneCall)
                 }
             }
         }

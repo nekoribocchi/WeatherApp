@@ -34,9 +34,10 @@ struct MainView: View {
                                 weatherManager.getCurrentWeather()
    
                             }
-                            if let weather = weatherManager.currentWeather
+                            if let weather = weatherManager.currentWeather,
+                                let uv = weatherManager.oneCallAPI30
                                {
-                                CurrentWeatherView(weather: weather)
+                                CurrentWeatherView(weather: weather, OneCall: uv)
                             } else {
                                 Text("天気データがありません")
                                     .foregroundColor(.secondary)
@@ -49,7 +50,7 @@ struct MainView: View {
                         .tag(0)
 
                         // Weatherタブ - WeatherViewを使用
-                        WeatherView(weatherManager: weatherManager, )
+                        WeatherView(weatherManager: weatherManager)
                         .tabItem {
                             Image(systemName: "calendar")
                             Text("3時間予報")

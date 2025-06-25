@@ -10,7 +10,6 @@ import SwiftUI
 struct WeatherView: View {
     @ObservedObject var weatherManager: WeatherManager
 
-    
     var body: some View {
         VStack(spacing: 20) {
             Button("更新") {
