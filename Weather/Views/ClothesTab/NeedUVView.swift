@@ -10,12 +10,19 @@ struct NeedUVView: View {
     let uv: OneCallAPI30
     
     var body: some View {
-        if uv.current.uvi > 3 {
+        
             ZStack {
-                Circle()
-                    .fill(.white)
-                    .frame(width: 100, height: 100)
-                    .shadow(radius: 5)
+                if uv.current.uvi > 3 {
+                    Circle()
+                        .fill(.white).opacity(0.7)
+                        .frame(width: 100, height: 100)
+                        .shadow(radius: 5)
+                }else{
+                    Circle()
+                        .fill(.gray).opacity(0.7)
+                        .frame(width: 100, height: 100)
+                        .shadow(radius: 5)
+                }
                 VStack(spacing: 4) {
                     Image(systemName: "sunglasses.fill")
                         .resizable()
@@ -26,9 +33,7 @@ struct NeedUVView: View {
                 }
             }
             .accessibilityLabel("High UV index. Sunscreen recommended.")
-        } else {
-            EmptyView()
-        }
     }
 }
+
 

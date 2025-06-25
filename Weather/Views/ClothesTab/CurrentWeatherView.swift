@@ -49,6 +49,7 @@ struct CurrentWeatherView: View {
             CapsuleView {
                 Text(weather.name)
                     .font(.callout)
+                    .padding(.horizontal, 10)
             }
             
             // 天気関連情報（UV指数、雨の必要性）
@@ -61,12 +62,11 @@ struct CurrentWeatherView: View {
 }
 
 // MARK: - Preview
-
 #Preview {
     CurrentWeatherView(
-        weather: .mockRainyData,
-        oneCall: OneCallAPI30( // 修正: プロパティ名をoneCallに統一
-            current: .init(uvi: 5),
+        weather: .mockData,
+        oneCall: OneCallAPI30(
+            current: .init(uvi: 2),
             daily: [.init(pop: 0.8)]
         )
     )

@@ -61,10 +61,6 @@ struct MainView: View {
                        
                         .tag(1)
                     }
-                    .onChange(of: selectedTab) { _, newTab in
-                        // タブが切り替わった時にデータを取得
-                        refreshTabData(for: newTab)
-                    }
                 }
             }
         }
@@ -94,4 +90,8 @@ struct MainView: View {
     }
 }
 
-
+#Preview {
+    NavigationView {
+        MainView()
+    }
+}

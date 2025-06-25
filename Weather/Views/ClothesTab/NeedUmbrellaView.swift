@@ -10,23 +10,27 @@ struct NeedUmbrellaView: View {
     let rain: OneCallAPI30
     
     var body: some View {
-        if rain.daily.first!.pop > 0.5 {
-            ZStack {
+        
+        ZStack {
+            if rain.daily.first!.pop > 0.5 {
                 Circle()
-                    .fill(.white)
+                    .fill(.white).opacity(0.7)
                     .frame(width: 100, height: 100)
                     .shadow(radius: 5)
-                VStack(spacing: 4) {
-                    Image(systemName: "umbrella.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 50, height: 50)
-                        .foregroundColor(.black)
-                    
-                }
+            } else {
+                Circle()
+                    .fill(.gray).opacity(0.7)
+                    .frame(width: 100, height: 100)
+                    .shadow(radius: 5)
             }
-        } else {
-            EmptyView()
+            VStack(spacing: 4) {
+                Image(systemName: "umbrella.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 50, height: 50)
+                    .foregroundColor(.black)
+                
+            }
         }
     }
 }
