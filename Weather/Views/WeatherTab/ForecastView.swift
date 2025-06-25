@@ -29,8 +29,6 @@ struct ForecastView: View {
                     }
                     .padding(.horizontal, 8)
                 }
-                
-
             }
             .padding(.vertical, 10)
         }
