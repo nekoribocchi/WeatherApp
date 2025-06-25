@@ -64,7 +64,7 @@ struct CurrentWeatherView: View {
 
 #Preview {
     CurrentWeatherView(
-        weather: .mockData,
+        weather: .mockRainyData,
         oneCall: OneCallAPI30( // 修正: プロパティ名をoneCallに統一
             current: .init(uvi: 5),
             daily: [.init(pop: 0.8)]

@@ -58,10 +58,15 @@ struct WeatherBackgroundView: View {
         switch weatherType { // 修正: currentWeatherからweatherTypeに変更
         case .rainy:
             RealisticRainView()
+                .ignoresSafeArea()
         case .sunny:
             RealisticSunnyView()
+                .ignoresSafeArea()
+
         case .cloudy:
             RealisticCloudyView()
+                .ignoresSafeArea()
+
         }
     }
 }

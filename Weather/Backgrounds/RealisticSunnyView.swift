@@ -289,3 +289,8 @@ struct LensFlareView: View {
         .blendMode(.screen)
     }
 }
+
+#Preview{
+    RealisticSunnyView()
+        
+}

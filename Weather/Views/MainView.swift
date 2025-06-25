@@ -29,11 +29,8 @@ struct MainView: View {
                 } else {
                     TabView(selection: $selectedTab) {
                         // clothesタブ
-                        VStack{
-                            Button("最新の天気を取得") {
-                                weatherManager.getCurrentWeather()
-   
-                            }
+                        ZStack{
+                            
                             if let weather = weatherManager.currentWeather,
                                 let uv = weatherManager.oneCallAPI30
                                {
@@ -41,6 +38,12 @@ struct MainView: View {
                             } else {
                                 Text("天気データがありません")
                                     .foregroundColor(.secondary)
+                            }
+                            VStack{
+                                Button("最新の天気を取得") {
+                                    weatherManager.getCurrentWeather()
+                                }
+                                Spacer()
                             }
                         }
                         .tabItem {
@@ -63,8 +66,6 @@ struct MainView: View {
                         refreshTabData(for: newTab)
                     }
                 }
-                
-                Spacer()
             }
         }
     }
