@@ -37,7 +37,7 @@ struct MainView: View {
                             if let weather = weatherManager.currentWeather,
                                 let uv = weatherManager.oneCallAPI30
                                {
-                                CurrentWeatherView(weather: weather, OneCall: uv)
+                                CurrentWeatherView(weather: weather, oneCall: uv)
                             } else {
                                 Text("天気データがありません")
                                     .foregroundColor(.secondary)

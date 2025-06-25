@@ -1,19 +1,19 @@
+////
+////  ContentView.swift
+////  WeatherApp
+////
+////  Created on 2025/06/25
+////
 //
-//  ContentView.swift
-//  WeatherApp
+//import SwiftUI
 //
-//  Created on 2025/06/25
+//struct ContentView: View {
+//    var body: some View {
+//        WeatherBackgroundView()
+//            .preferredColorScheme(.dark)
+//    }
+//}
 //
-
-import SwiftUI
-
-struct ContentView: View {
-    var body: some View {
-        WeatherBackgroundView()
-            .preferredColorScheme(.dark)
-    }
-}
-
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView()
+//}

@@ -8,7 +8,7 @@
 import SwiftUI
 
 // 天気タイプ
-enum WeatherType: CaseIterable {
+enum WeatherType2: CaseIterable {
     case rainy, sunny, cloudy
     
     var displayName: String {
