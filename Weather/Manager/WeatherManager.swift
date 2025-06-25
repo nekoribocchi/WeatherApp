@@ -21,6 +21,7 @@ class WeatherManager: ObservableObject {
     
     /// 取得した現在の天気データ（SwiftUIでバインド可能）
     @Published var currentWeather: WeatherData?
+    
     @Published var currentUV: UVData?
     /// 取得した予報データ（SwiftUIでバインド可能）
     @Published var forecastWeather: ForecastData?

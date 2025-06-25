@@ -4,7 +4,7 @@ import SwiftUI
 struct MainView: View {
     @StateObject private var weatherManager = WeatherManager()
     @State private var selectedTab: Int = 0
-    
+
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
@@ -34,7 +34,8 @@ struct MainView: View {
                                 weatherManager.getCurrentWeather()
    
                             }
-                            if let weather = weatherManager.currentWeather {
+                            if let weather = weatherManager.currentWeather
+                               {
                                 CurrentWeatherView(weather: weather)
                             } else {
                                 Text("天気データがありません")
@@ -91,7 +92,4 @@ struct MainView: View {
     }
 }
 
-#Preview("Content View - Loading") {
-    MainView()
-}
 

@@ -9,6 +9,7 @@ import SwiftUI
 // MARK: - WeatherView（MainViewのWeatherManagerを受け取る版）
 struct WeatherView: View {
     @ObservedObject var weatherManager: WeatherManager
+
     
     var body: some View {
         VStack(spacing: 20) {
@@ -20,8 +21,12 @@ struct WeatherView: View {
             VStack(spacing: 20) {
                 // 気温データの表示
                 if let forecast = weatherManager.forecastWeather,
-                   let weather = weatherManager.currentWeather {
-                    TemperatureView(forecast: forecast, weather: weather)
+                   let weather = weatherManager.currentWeather,
+                   let uv = weatherManager.currentUV {
+                    VStack{
+                        TemperatureView(forecast: forecast, weather: weather)
+                        UVView(uv: weatherManager.currentUV!)
+                    }
                 } else {
                     VStack {
                         Image(systemName: "thermometer.medium")
@@ -70,9 +75,4 @@ struct WeatherView: View {
         }
         .padding()
     }
-}
-
-#Preview {
-    let weatherManager = WeatherManager()
-    WeatherView(weatherManager: weatherManager)
 }

@@ -10,8 +10,6 @@ import SwiftUI
 // MARK: - CurrentWeatherView
 struct CurrentWeatherView: View {
     let weather: WeatherData
-    @ObservedObject private var weatherManager = WeatherManager.shared
-    
     var body: some View {
         ZStack {
             LinearGradient(gradient: Gradient(colors: [.blue, .white]), startPoint: .top, endPoint: .bottom)
@@ -45,22 +43,10 @@ struct CurrentWeatherView: View {
                             .font(.callout)
                         
                     }
-                    CapsuleView{
-                        Text("UV: \(weatherManager.currentUV?.current.first?.uvi ?? 0.0)")
-                    }
+                  
     
                 }
             }
         }
     }
 }
-
-
-#Preview("Current Weather - Sunny") {
-    CurrentWeatherView(weather: WeatherData.mockData)
-}
-
-#Preview("Current Weather - Rainy") {
-    CurrentWeatherView(weather: WeatherData.mockRainyData)
-}
-
