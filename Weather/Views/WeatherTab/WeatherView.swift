@@ -17,15 +17,32 @@ struct WeatherView: View {
                 .ignoresSafeArea()
             
             VStack {
+                Spacer()
                 HStack{
                     weatherInfoContent
                     UpdateButton(action: { initializeWeatherData() })
                 }
                 weatherContentView
+                Spacer()
             }
         }
     }
     
+    private var WeatherIcon: some View {
+        Group {
+            if let icon = weatherManager.currentWeather?.weather.first?.icon {
+                AsyncImage(url: URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png")) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                } placeholder: {
+                    Image(systemName: "cloud")
+                        .foregroundColor(.gray)
+                }
+                .frame(width: 150, height: 150)
+            }
+        }
+    }
     // MARK: - 天気情報コンテンツ
     private var weatherInfoContent: some View {
         Group {
@@ -35,7 +52,8 @@ struct WeatherView: View {
                         Text(weather.name)
                             .font(.callout)
                             .padding(.horizontal, 10)
-                    }                }
+                    }
+                }
             } else {
                 DataUnavailableView(title: "天気情報がありません")
             }
@@ -44,7 +62,7 @@ struct WeatherView: View {
     
     // MARK: - 天気情報コンテンツエリア
     private var weatherContentView: some View {
-        VStack{ // スペーシングを統一
+        VStack(spacing: 0){
             // 気温データ表示
             temperatureSection
             
@@ -61,7 +79,11 @@ struct WeatherView: View {
         Group {
             if let forecast = weatherManager.forecastWeather,
                let weather = weatherManager.currentWeather {
-                TemperatureView(forecast: forecast, weather: weather)
+                HStack{
+                    WeatherIcon
+                    TemperatureView(forecast: forecast, weather: weather)
+                }
+                .padding(.horizontal,20)
             } else {
                 // エラー表示を共通化
                 DataUnavailableView(
@@ -88,7 +110,7 @@ struct WeatherView: View {
     private var uvAndPrecipitationSection: some View {
         Group {
             if let oneCallAPI30 = weatherManager.oneCallAPI30 {
-                HStack{ // スペーシングを明示的に設定
+                HStack{
                     UVView(uv: oneCallAPI30)
                     PopView(pop: oneCallAPI30)
                 }
@@ -106,15 +128,14 @@ struct WeatherView: View {
     private func initializeWeatherData() {
         print("🚀 アプリ起動時の天気データ初期化を開始")
         weatherManager.getCurrentWeather()
-       
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    print("📅 天気予報データを取得中...")
-                    self.weatherManager.getForecast()
-                }
+            print("📅 天気予報データを取得中...")
+            self.weatherManager.getForecast()
+        }
     }
-
-}
     
+}
 
 
 
