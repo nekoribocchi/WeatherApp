@@ -11,12 +11,12 @@ import SwiftUI
 struct WeatherView: View {
     @ObservedObject var weatherManager: WeatherManager
     
-//    let weather: CurrentWeatherAPI25
-//    
-//    private var currentWeatherType: WeatherType {
-//        return WeatherType.from(weatherMain: weather.weather.first?.main)
-//    }
-//    
+    //    let weather: CurrentWeatherAPI25
+    //
+    //    private var currentWeatherType: WeatherType {
+    //        return WeatherType.from(weatherMain: weather.weather.first?.main)
+    //    }
+    //
     var body: some View {
         ZStack {
             Color(.background)
@@ -115,6 +115,7 @@ struct WeatherView: View {
         }
     }
 }
+    
 
 
 

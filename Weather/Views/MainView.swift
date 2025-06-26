@@ -1,101 +1,86 @@
-// MARK: - ContentView.swift での使用例
+// MainView.swift
+// メインのビューコントローラー - アプリの中心的な画面を管理
+
 import SwiftUI
 
 struct MainView: View {
+    // MARK: - Properties
     @StateObject private var weatherManager = WeatherManager()
     @State private var selectedTab: Int = 0
-
+    
+    // MARK: - Body
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
                 if weatherManager.isLoading {
-                    ProgressView("読み込み中...")
-                        .scaleEffect(1.5)
+                    LoadingView()
                 } else if !weatherManager.errorMessage.isEmpty {
-                    VStack {
-                        Image(systemName: "exclamationmark.triangle")
-                            .font(.largeTitle)
-                            .foregroundColor(.red)
-                        Text(weatherManager.errorMessage)
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.red)
-
-                        Button("再試行") {
-                            weatherManager.clearError()
-                            refreshCurrentTabData()
-                        }
-                        .buttonStyle(.borderedProminent)
-                    }
+                    ErrorView(
+                        errorMessage: weatherManager.errorMessage,
+                        onRetry: handleRetry
+                    )
                 } else {
-                    TabView(selection: $selectedTab) {
-                        // clothesタブ
-                        ZStack {
-                            if let weather = weatherManager.currentWeather,
-                               let uv = weatherManager.oneCallAPI30 {
-                                CurrentWeatherView(weather: weather, oneCall: uv)
-                            } else {
-                                Text("天気データがありません")
-                                    .foregroundColor(.secondary)
-                            }
-
-                            VStack {
-                                Button("最新の天気を取得") {
-                                    weatherManager.getCurrentWeather()
-                                }
-                                Spacer()
-                            }
-                        }
-                        .tabItem {
-                            Image(systemName: "cloud.sun")
-                            Text("Clothes")
-                        }
-                        .tag(0)
-
-                        // Weatherタブ - WeatherViewを使用
-                        if let weather = weatherManager.currentWeather {
-                            WeatherView(weatherManager: weatherManager)
-                                .tabItem {
-                                    Image(systemName: "sun.min.fill")
-                                    Text("Weather")
-                                }
-                                .tag(1)
-                        } else {
-                            Text("天気データがありません")
-                                .foregroundColor(.secondary)
-                                .tabItem {
-                                    Image(systemName: "sun.min.fill")
-                                    Text("Weather")
-                                }
-                                .tag(1)
-                        }
-                    }
+                    MainTabView(
+                        weatherManager: weatherManager,
+                        selectedTab: $selectedTab
+                    )
                 }
+            }
+            .onAppear {
+                initializeWeatherData()
             }
         }
     }
-
-    // MARK: - Helper Methods
+    
+    // MARK: - Private Methods
+    private func initializeWeatherData() {
+        print("🚀 アプリ起動時の天気データ初期化を開始")
+        weatherManager.getCurrentWeather()
+       
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    print("📅 天気予報データを取得中...")
+                    self.weatherManager.getForecast()
+                }
+    }
+    
+    /// エラー発生時のリトライ処理
+    /// - エラーをクリアして現在選択中のタブのデータを再取得
+    private func handleRetry() {
+        print("🔄 エラーからのリトライを実行")
+        weatherManager.clearError()
+        refreshCurrentTabData() // 修正: 既存のメソッドを再利用
+    }
+    
+    /// 現在選択中のタブに応じたデータ更新
+    /// - 選択されているタブに基づいて適切なデータ取得を実行
+    private func refreshCurrentTabData() {
+        print("🔄 現在のタブ(\(selectedTab))のデータを更新")
+        refreshTabData(for: selectedTab)
+    }
+    
+    /// 指定されたタブのデータ更新処理
+    /// - Parameter tab: 更新対象のタブインデックス
     private func refreshTabData(for tab: Int) {
-        print("🔄 refreshTabData called for tab: \(tab)")
+        print("🔄 タブ \(tab) のデータ更新を開始")
+        
         switch tab {
-        case 0:
-            print("🌤️ 現在の天気を取得中...")
+        case 0: // Clothesタブ
+            print("👕 服装推薦用の天気データを取得")
             weatherManager.getCurrentWeather()
-        case 1:
-            print("📅 予報を取得中...")
+            
+        case 1: // Weatherタブ
+            print("🌤️ 詳細天気情報を取得")
+            // 修正: 予報と現在天気の両方を取得（重複を避けるため順序を最適化）
             weatherManager.getForecast()
             weatherManager.getCurrentWeather()
+            
         default:
-            break
+            print("⚠️ 未定義のタブが選択されました: \(tab)")
         }
-    }
-
-    private func refreshCurrentTabData() {
-        print("🔄 refreshCurrentTabData called")
-        refreshTabData(for: selectedTab)
     }
 }
 
+// MARK: - Preview
 #Preview {
     NavigationView {
         MainView()
