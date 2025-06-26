@@ -59,12 +59,12 @@ struct ClothesView: View {
 }
 
 // MARK: - Preview
-#Preview("ClothesView") {
+#Preview {
     ClothesView(
         weather: .mockData,
         oneCall: OneCallAPI30(
             current: .init(uvi: 2),
-            daily: [OneCallAPI30.Daily(weather: OneCallAPI30.Daily.Weather(main: "Rain", description: "light rain", icon: "10d"), pop: 0.7)]
+            daily: [.init(pop: 0.8)]
         )
     )
 }

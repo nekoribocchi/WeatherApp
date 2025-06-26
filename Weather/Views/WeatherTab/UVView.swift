@@ -28,9 +28,10 @@ struct UVView: View {
 
 #Preview{
     VStack{
-        UVView(uv: OneCallAPI30(current: OneCallAPI30.Current(uvi: 3.7), daily: [OneCallAPI30.Daily(weather: OneCallAPI30.Daily.Weather(main: "Clear", description: "clear sky", icon: "01d"), pop: 0.7)]))
+        UVView(uv: OneCallAPI30(current: OneCallAPI30.Current(uvi: 3.7), daily: [OneCallAPI30.Daily(pop: 0.7)]))
         
-        UVView(uv: OneCallAPI30(current: OneCallAPI30.Current(uvi: 3.7), daily: [OneCallAPI30.Daily(weather: OneCallAPI30.Daily.Weather(main: "Clouds", description: "few clouds", icon: "02d"), pop: 0.7)]))
+        UVView(uv: OneCallAPI30(current: OneCallAPI30.Current(uvi: 3.7), daily: [OneCallAPI30.Daily(pop: 0.7)]))
     }
     
 }
+
