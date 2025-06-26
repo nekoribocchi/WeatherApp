@@ -1,0 +1,15 @@
+{
+  "originHash" : "2d99dfda1946d26bfa3764427a4e018e59aa7e1e5ff17b3c2bc5a6fdab6bfd12",
+  "pins" : [
+    {
+      "identity" : "glassmorphismui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nekoribocchi/GlassmorphismUI.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "e3d1c03293c0a2c8e547f02ee02a8927dc2f425d"
+      }
+    }
+  ],
+  "version" : 3
+}

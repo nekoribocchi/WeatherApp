@@ -29,7 +29,6 @@ struct NeedUmbrellaView: View {
                     .scaledToFit()
                     .frame(width: 50, height: 50)
                     .foregroundColor(.black)
-                
             }
         }
     }

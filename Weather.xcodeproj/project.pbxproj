@@ -28,6 +28,7 @@
 		8A7124912E0B843B00E0D542 /* PopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7124902E0B843B00E0D542 /* PopView.swift */; };
 		8A7124932E0B88F200E0D542 /* NeedUVView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7124922E0B88F200E0D542 /* NeedUVView.swift */; };
 		8A869D2C2E0BB67E008A2A6B /* ToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A869D242E0BB67E008A2A6B /* ToggleView.swift */; };
+		8A869D2F2E0BF73C008A2A6B /* GlassmorphismUI in Frameworks */ = {isa = PBXBuildFile; productRef = 8A869D2E2E0BF73C008A2A6B /* GlassmorphismUI */; };
 		8AA43F042DFF123000BE6757 /* ForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA43F012DFF123000BE6757 /* ForecastView.swift */; };
 		8AA43F052DFF123000BE6757 /* ForecastItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA43F002DFF123000BE6757 /* ForecastItemView.swift */; };
 		8AA7F0882E0B3AFE0047CC47 /* OneCallAPI30.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA7F0872E0B3AFE0047CC47 /* OneCallAPI30.swift */; };
@@ -87,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A869D2F2E0BF73C008A2A6B /* GlassmorphismUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,6 +301,9 @@
 				Base,
 			);
 			mainGroup = 8A1783242C52063700A08B1B;
+			packageReferences = (
+				8A869D2D2E0BF73C008A2A6B /* XCRemoteSwiftPackageReference "GlassmorphismUI" */,
+			);
 			productRefGroup = 8A17832E2C52063700A08B1B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -577,6 +582,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8A869D2D2E0BF73C008A2A6B /* XCRemoteSwiftPackageReference "GlassmorphismUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nekoribocchi/GlassmorphismUI.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8A869D2E2E0BF73C008A2A6B /* GlassmorphismUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8A869D2D2E0BF73C008A2A6B /* XCRemoteSwiftPackageReference "GlassmorphismUI" */;
+			productName = GlassmorphismUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8A1783252C52063700A08B1B /* Project object */;
 }

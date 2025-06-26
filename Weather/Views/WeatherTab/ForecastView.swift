@@ -12,13 +12,14 @@
 //
 
 import SwiftUI
+import GlassmorphismUI
 
 // MARK: - ForecastView
 struct ForecastView: View {
     let forecast: ForecastAPI25
     
     var body: some View {
-        CapsuleView {
+        RoundRectangleView(heightRatio: 0.8, widthRatio: 0.8) {
             VStack(spacing: 15) {
                 // 時間ごとの予報
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -27,12 +28,9 @@ struct ForecastView: View {
                             ForecastItemView(item: item)
                         }
                     }
-                    .padding(.horizontal, 8)
                 }
             }
-            .padding(.vertical, 10)
         }
-        .padding()
     }
 
 }

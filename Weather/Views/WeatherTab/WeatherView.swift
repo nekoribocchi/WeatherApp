@@ -9,7 +9,7 @@ import SwiftUI
 // MARK: - WeatherView（MainViewのWeatherManagerを受け取る版）
 struct WeatherView: View {
     @ObservedObject var weatherManager: WeatherManager
-
+    
     var body: some View {
         VStack(spacing: 20) {
             Button("更新") {
@@ -17,15 +17,13 @@ struct WeatherView: View {
                 weatherManager.getForecast()
             }
             .buttonStyle(.borderedProminent)
-            VStack(spacing: 20) {
+            
+            VStack{
                 // 気温データの表示
                 if let forecast = weatherManager.forecastWeather,
-                   let weather = weatherManager.currentWeather,
-                  let _ = weatherManager.oneCallAPI30 {
+                   let weather = weatherManager.currentWeather {
                     VStack{
                         TemperatureView(forecast: forecast, weather: weather)
-                        UVView(uv: weatherManager.oneCallAPI30!)
-                        PopView(pop: weatherManager.oneCallAPI30!)
                     }
                 } else {
                     VStack {
@@ -71,8 +69,33 @@ struct WeatherView: View {
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(8)
                 }
+                
+                
+                
+                if let oneCallAPI30 = weatherManager.oneCallAPI30{
+                    HStack{
+                        UVView(uv: oneCallAPI30)
+                        PopView(pop: oneCallAPI30)
+                    }
+                }
+                else{
+                    VStack {
+                        Image(systemName: "calendar.badge.exclamationmark")
+                            .font(.title2)
+                            .foregroundColor(.gray)
+                        Text("予報データがありません")
+                            .foregroundColor(.secondary)
+                    }
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(8)
+                }
             }
         }
-        .padding()
     }
+    
+}
+
+#Preview {
+    WeatherView(weatherManager: WeatherManager())
 }
