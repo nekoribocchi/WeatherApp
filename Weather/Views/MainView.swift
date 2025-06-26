@@ -19,7 +19,7 @@ struct MainView: View {
                         Text(weatherManager.errorMessage)
                             .multilineTextAlignment(.center)
                             .foregroundColor(.red)
-                        
+
                         Button("再試行") {
                             weatherManager.clearError()
                             refreshCurrentTabData()
@@ -29,17 +29,16 @@ struct MainView: View {
                 } else {
                     TabView(selection: $selectedTab) {
                         // clothesタブ
-                        ZStack{
-                            
+                        ZStack {
                             if let weather = weatherManager.currentWeather,
-                                let uv = weatherManager.oneCallAPI30
-                               {
+                               let uv = weatherManager.oneCallAPI30 {
                                 CurrentWeatherView(weather: weather, oneCall: uv)
                             } else {
                                 Text("天気データがありません")
                                     .foregroundColor(.secondary)
                             }
-                            VStack{
+
+                            VStack {
                                 Button("最新の天気を取得") {
                                     weatherManager.getCurrentWeather()
                                 }
@@ -53,29 +52,36 @@ struct MainView: View {
                         .tag(0)
 
                         // Weatherタブ - WeatherViewを使用
-                        WeatherView(weatherManager: weatherManager)
-                        .tabItem {
-                            Image(systemName: "calendar")
-                            Text("3時間予報")
+                        if let weather = weatherManager.currentWeather {
+                            WeatherView(weatherManager: weatherManager, weather: weather)
+                                .tabItem {
+                                    Image(systemName: "sun.min.fill")
+                                    Text("3時間予報")
+                                }
+                                .tag(1)
+                        } else {
+                            Text("天気データがありません")
+                                .foregroundColor(.secondary)
+                                .tabItem {
+                                    Image(systemName: "sun.min.fill")
+                                    Text("3時間予報")
+                                }
+                                .tag(1)
                         }
-                       
-                        .tag(1)
                     }
                 }
             }
         }
     }
-    
+
     // MARK: - Helper Methods
     private func refreshTabData(for tab: Int) {
         print("🔄 refreshTabData called for tab: \(tab)")
         switch tab {
         case 0:
-            // 現在の天気タブ
             print("🌤️ 現在の天気を取得中...")
             weatherManager.getCurrentWeather()
         case 1:
-            // 予報タブ
             print("📅 予報を取得中...")
             weatherManager.getForecast()
             weatherManager.getCurrentWeather()
@@ -83,7 +89,7 @@ struct MainView: View {
             break
         }
     }
-    
+
     private func refreshCurrentTabData() {
         print("🔄 refreshCurrentTabData called")
         refreshTabData(for: selectedTab)

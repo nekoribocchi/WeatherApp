@@ -11,15 +11,25 @@ import SwiftUI
 struct WeatherView: View {
     @ObservedObject var weatherManager: WeatherManager
     
+    let weather: CurrentWeatherAPI25
+    
+    private var currentWeatherType: WeatherType {
+        return WeatherType.from(weatherMain: weather.weather.first?.main)
+    }
+    
     var body: some View {
-        VStack(spacing: 20) {
-            // 更新ボタンを共通化
-            refreshButton
+        ZStack {
+            WeatherBackgroundView(currentWeatherType)
             
-            // レイアウトを整理し、コンテンツエリアを分離
-            weatherContentView
+            VStack(spacing: 20) {
+                // 更新ボタンを共通化
+                refreshButton
+                
+                // レイアウトを整理し、コンテンツエリアを分離
+                weatherContentView
+            }
+            .padding() // 全体のパディングを追加
         }
-        .padding() // 全体のパディングを追加
     }
     
     // MARK: - 更新ボタン（冗長な処理を統合）
@@ -77,10 +87,11 @@ struct WeatherView: View {
     private var uvAndPrecipitationSection: some View {
         Group {
             if let oneCallAPI30 = weatherManager.oneCallAPI30 {
-                HStack(spacing: 12) { // スペーシングを明示的に設定
+                HStack{ // スペーシングを明示的に設定
                     UVView(uv: oneCallAPI30)
                     PopView(pop: oneCallAPI30)
                 }
+                .padding(.horizontal) // 横方向のパディングを追加
             } else {
                 // 重複していたエラー表示を共通化し、適切なメッセージに変更
                 DataUnavailableView(
@@ -109,5 +120,5 @@ struct WeatherView: View {
 
 // MARK: - Preview
 #Preview {
-    WeatherView(weatherManager: WeatherManager())
+    WeatherView(weatherManager: WeatherManager(), weather: CurrentWeatherAPI25.mockData)
 }

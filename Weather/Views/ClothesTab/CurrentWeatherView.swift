@@ -20,11 +20,8 @@ struct CurrentWeatherView: View {
     let oneCall: OneCallAPI30
     
     // MARK: - Computed Properties
-    
-    /// APIレスポンスから天気タイプを判定
-    /// - 天気判定ロジックを一箇所に集約
     private var currentWeatherType: WeatherType {
-        return WeatherType.from(weatherMain: weather.weather.first?.main) // 修正: 判定ロジックをWeatherTypeに移動
+        return WeatherType.from(weatherMain: weather.weather.first?.main)
     }
     
     // MARK: - Body
@@ -32,7 +29,7 @@ struct CurrentWeatherView: View {
     var body: some View {
         ZStack {
             // 背景ビュー（天気に応じて動的に変更）
-            WeatherBackgroundView(currentWeatherType) // 修正: 条件分岐を削除し、動的に天気タイプを渡す
+            WeatherBackgroundView(currentWeatherType)
             
             // 天気情報表示
             weatherInfoContent

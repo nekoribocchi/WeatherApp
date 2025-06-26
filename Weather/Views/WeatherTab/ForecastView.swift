@@ -19,7 +19,7 @@ struct ForecastView: View {
     let forecast: ForecastAPI25
     
     var body: some View {
-        RoundRectangleView(heightRatio: 0.8, widthRatio: 0.8) {
+        RoundRectangleView(heightRatio: 0.9, widthRatio: 0.9) {
             VStack(spacing: 15) {
                 // 時間ごとの予報
                 ScrollView(.horizontal, showsIndicators: false) {
