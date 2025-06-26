@@ -75,7 +75,7 @@ class WeatherManager: ObservableObject {
                     lon: location.coordinate.longitude
                 )
                 
-                let oneCallAPI30 = try await self.apiService.fetchUV(
+                let oneCallAPI30 = try await self.apiService.fetchOnecallAPI(
                     lat: location.coordinate.latitude,
                     lon: location.coordinate.longitude
                 )
@@ -108,7 +108,7 @@ class WeatherManager: ObservableObject {
             }
         }
     }
-    
+
     /// 指定した座標の現在の天気を取得
     /// - Parameters:
     ///   - lat: 緯度
@@ -120,6 +120,9 @@ class WeatherManager: ObservableObject {
                 
                 let currentWeatherAPI25 = try await self.apiService.fetchCurrentWeather(lat: lat, lon: lon)
                 self.currentWeather = currentWeatherAPI25
+                
+                let oneCallAPI30 = try await self.apiService.fetchOnecallAPI(lat: lat, lon: lon)
+                self.oneCallAPI30 = oneCallAPI30
             }
         }
     }
@@ -194,5 +197,10 @@ class WeatherManager: ObservableObject {
         }
         
         isLoading = false
+    }
+    
+    func refreshAllWeatherData() {
+        getCurrentWeather()
+        getForecast()
     }
 }

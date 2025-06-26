@@ -42,6 +42,7 @@
 		8ADEAE532DFAB72D00A78CB4 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADEAE522DFAB72D00A78CB4 /* MainView.swift */; };
 		8ADEAE552DFACC4200A78CB4 /* CurrentWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADEAE542DFACC4200A78CB4 /* CurrentWeatherView.swift */; };
 		8ADEAE5D2DFAD66500A78CB4 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADEAE5C2DFAD66500A78CB4 /* MockData.swift */; };
+		8AF1FA662E0CDBAC0043D4EF /* DataUnavailableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF1FA652E0CDBAC0043D4EF /* DataUnavailableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +82,7 @@
 		8ADEAE522DFAB72D00A78CB4 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		8ADEAE542DFACC4200A78CB4 /* CurrentWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherView.swift; sourceTree = "<group>"; };
 		8ADEAE5C2DFAD66500A78CB4 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		8AF1FA652E0CDBAC0043D4EF /* DataUnavailableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUnavailableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				8ABD12CF2E02E98B00C6C153 /* WeatherView.swift */,
+				8AF1FA652E0CDBAC0043D4EF /* DataUnavailableView.swift */,
 				8ABD12CD2E02E75800C6C153 /* TemperatureView.swift */,
 				8AA43F012DFF123000BE6757 /* ForecastView.swift */,
 				8AA7F08C2E0B715D0047CC47 /* UVView.swift */,
@@ -344,6 +347,7 @@
 				8ABD12CE2E02E75800C6C153 /* TemperatureView.swift in Sources */,
 				8A2536EC2E0903550007F1EC /* LocationError.swift in Sources */,
 				8A2536E92E0902E00007F1EC /* WeatherAPIError.swift in Sources */,
+				8AF1FA662E0CDBAC0043D4EF /* DataUnavailableView.swift in Sources */,
 				8A50C9B92DF72AE80024404E /* CurrentWeatherAPI25.swift in Sources */,
 				8ABD12D02E02E98B00C6C153 /* WeatherView.swift in Sources */,
 				8ADEAE4C2DFA972700A78CB4 /* WeatherAPIService.swift in Sources */,

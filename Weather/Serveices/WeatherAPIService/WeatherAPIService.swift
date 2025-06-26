@@ -13,7 +13,7 @@ import Playgrounds
 protocol WeatherAPIServiceProtocol {
     func fetchCurrentWeather(lat: Double, lon: Double) async throws -> CurrentWeatherAPI25
     func fetchForecast(lat: Double, lon: Double) async throws -> ForecastAPI25
-    func fetchUV(lat: Double, lon: Double) async throws -> OneCallAPI30
+    func fetchOnecallAPI(lat: Double, lon: Double) async throws -> OneCallAPI30
 }
 
 // MARK: - Weather API Service
@@ -56,7 +56,7 @@ class WeatherAPIService: WeatherAPIServiceProtocol {
         return try await fetchData(from: apiType, responseType: ForecastAPI25.self)
     }
     
-    func fetchUV(lat: Double, lon: Double) async throws -> OneCallAPI30 {
+    func fetchOnecallAPI(lat: Double, lon: Double) async throws -> OneCallAPI30 {
         let apiType = WeatherAPIType.uv(lat: lat, lon: lon)
         return try await fetchData(from: apiType, responseType: OneCallAPI30.self)
     }
