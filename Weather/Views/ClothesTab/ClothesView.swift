@@ -1,5 +1,5 @@
 //
-//  CurrentWeatherView.swift
+//  ClothesView.swift
 //  WeatherApp
 //
 //  Created on 2025/06/25
@@ -10,7 +10,7 @@ import SwiftUI
 /// 現在の天気情報を表示するメインビュー
 /// - 天気データに基づいて背景と情報を表示
 /// - WeatherBackgroundViewを使用して統一的な背景表示を実現
-struct CurrentWeatherView: View {
+struct ClothesView: View {
     
     // MARK: - Properties
     
@@ -60,7 +60,7 @@ struct CurrentWeatherView: View {
 
 // MARK: - Preview
 #Preview {
-    CurrentWeatherView(
+    ClothesView(
         weather: .mockData,
         oneCall: OneCallAPI30(
             current: .init(uvi: 2),

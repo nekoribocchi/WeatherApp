@@ -20,7 +20,7 @@ struct MainTabView: View {
         TabView(selection: $selectedTab) {
             Group {
                 if let weather = weatherManager.currentWeather, let oneCall = weatherManager.oneCallAPI30 {
-                    CurrentWeatherView(weather: weather, oneCall: oneCall)
+                    ClothesView(weather: weather, oneCall: oneCall)
                 } else {
                     Text("天気データがありません")
                 }
@@ -31,7 +31,6 @@ struct MainTabView: View {
             }
             .tag(0)
             
-            // 修正: 条件分岐を簡潔にし、一貫性を保つ
             WeatherView(weatherManager: weatherManager)
                 .tabItem {
                     Image(systemName: "sun.min.fill")
