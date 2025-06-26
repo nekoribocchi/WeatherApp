@@ -57,14 +57,14 @@ struct ClothesView: View {
         }
     }
 }
-
-// MARK: - Preview
-#Preview {
-    ClothesView(
-        weather: .mockData,
-        oneCall: OneCallAPI30(
-            current: .init(uvi: 2),
-            daily: [.init(pop: 0.8)]
-        )
-    )
-}
+//
+//// MARK: - Preview
+//#Preview {
+//    ClothesView(
+//        weather: .mockData,
+//        oneCall: OneCallAPI30(
+//            current: .init(uvi: 2),
+//            daily: [.init(pop: 0.8)]
+//        )
+//    )
+//}

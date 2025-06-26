@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// MARK: - WeatherView（MainViewのWeatherManagerを受け取る版）
+// MARK: - WeatherView
 struct WeatherView: View {
     @ObservedObject var weatherManager: WeatherManager
     

@@ -23,6 +23,6 @@ struct PopView: View {
         }
     }
 }
-#Preview("PopView") {
-    PopView(pop: OneCallAPI30(current: OneCallAPI30.Current(uvi: 0.0), daily: [OneCallAPI30.Daily(pop: 0.7)]))
-}
+//#Preview("PopView") {
+//    PopView(pop: OneCallAPI30(current: OneCallAPI30.Current(uvi: 0.0), daily: [OneCallAPI30.Daily(pop: 0.7)]))
+//}
