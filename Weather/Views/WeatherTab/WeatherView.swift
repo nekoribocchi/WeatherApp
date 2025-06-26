@@ -30,7 +30,7 @@ struct WeatherView: View {
     
     private var WeatherIcon: some View {
         Group {
-            if let icon = weatherManager.currentWeather?.weather.first?.icon {
+            if let icon = weatherManager.oneCallAPI30!.daily.first?.weather.icon {
                 AsyncImage(url: URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png")) { image in
                     image
                         .resizable()

@@ -24,5 +24,5 @@ struct PopView: View {
     }
 }
 #Preview("PopView") {
-    PopView(pop: OneCallAPI30(current: OneCallAPI30.Current(uvi: 0.0), daily: [OneCallAPI30.Daily(pop: 0.7)]))
+    PopView(pop: OneCallAPI30(current: OneCallAPI30.Current(uvi: 0.0), daily: [OneCallAPI30.Daily(weather: OneCallAPI30.Daily.Weather(main: "Rain", description: "light rain", icon: "10d"), pop: 0.7)]))
 }

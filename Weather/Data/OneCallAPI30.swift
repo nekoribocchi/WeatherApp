@@ -14,7 +14,14 @@ struct OneCallAPI30: Codable {
     }
     
     struct Daily: Codable {
+        let weather: Weather
         let pop: Double
+        
+        struct Weather: Codable {
+            let main: String
+            let description: String
+            let icon: String
+        }
     }
     
 }
