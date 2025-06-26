@@ -12,13 +12,13 @@ struct PopView: View {
     let pop: OneCallAPI30
     
     var body: some View {
-        RoundRectangleView(heightRatio: 0.8,widthRatio: 0.8) {
+        RoundRectangleView(heightRatio: 0.8,widthRatio: 0.9) {
             VStack{
                 Text("Rain")
-                    .font(.headline)
-                        
+                    .font(.system(size: 24, weight: .bold))
+                
                 Text("\(Int(floor((self.pop.daily.first?.pop ?? -1.0) * 100)))%")
-                    .font(.largeTitle)
+                    .font(.system(size: 24, weight: .bold))
             }
         }
     }

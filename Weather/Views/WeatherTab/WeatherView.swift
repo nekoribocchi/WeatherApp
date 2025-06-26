@@ -11,16 +11,16 @@ import SwiftUI
 struct WeatherView: View {
     @ObservedObject var weatherManager: WeatherManager
     
-    let weather: CurrentWeatherAPI25
-    
-    private var currentWeatherType: WeatherType {
-        return WeatherType.from(weatherMain: weather.weather.first?.main)
-    }
-    
+//    let weather: CurrentWeatherAPI25
+//    
+//    private var currentWeatherType: WeatherType {
+//        return WeatherType.from(weatherMain: weather.weather.first?.main)
+//    }
+//    
     var body: some View {
         ZStack {
-            WeatherBackgroundView(currentWeatherType)
-            
+            Color(.background)
+                .ignoresSafeArea() // 背景色を全体に適用
             VStack(spacing: 20) {
                 // 更新ボタンを共通化
                 refreshButton
@@ -120,5 +120,5 @@ struct WeatherView: View {
 
 // MARK: - Preview
 #Preview {
-    WeatherView(weatherManager: WeatherManager(), weather: CurrentWeatherAPI25.mockData)
+    WeatherView(weatherManager: WeatherManager())
 }

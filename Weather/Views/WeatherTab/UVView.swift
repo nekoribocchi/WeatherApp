@@ -12,7 +12,7 @@ struct UVView: View {
     let uv: OneCallAPI30
     
     var body: some View {
-        RoundRectangleView(heightRatio: 0.8,widthRatio: 0.8) {
+        RoundRectangleView(heightRatio: 0.8,widthRatio: 0.9) {
             VStack{
                 Text("UV")
                     .font(.system(size: 24, weight: .bold))

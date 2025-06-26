@@ -47,16 +47,16 @@ struct MainView: View {
                         }
                         .tabItem {
                             Image(systemName: "cloud.sun")
-                            Text("現在の天気")
+                            Text("Clothes")
                         }
                         .tag(0)
 
                         // Weatherタブ - WeatherViewを使用
                         if let weather = weatherManager.currentWeather {
-                            WeatherView(weatherManager: weatherManager, weather: weather)
+                            WeatherView(weatherManager: weatherManager)
                                 .tabItem {
                                     Image(systemName: "sun.min.fill")
-                                    Text("3時間予報")
+                                    Text("Weather")
                                 }
                                 .tag(1)
                         } else {
@@ -64,7 +64,7 @@ struct MainView: View {
                                 .foregroundColor(.secondary)
                                 .tabItem {
                                     Image(systemName: "sun.min.fill")
-                                    Text("3時間予報")
+                                    Text("Weather")
                                 }
                                 .tag(1)
                         }

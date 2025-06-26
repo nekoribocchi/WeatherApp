@@ -15,28 +15,14 @@ struct CapsuleView<Content: View>: View {
     }
     
     var body: some View {
-        if #available(iOS 26.0, *) {
             content
                 .padding()
-                .glassEffect()
-        } else {
-            content
-                .padding()
-                .background(Color.gray.opacity(0.1))
+                .background(Color.white.opacity(0.93))
                 .cornerRadius(25)
+                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 10, y: 5)
         }
     }
-}
 
-@available(iOS 26.0, *)
-#Preview("iOS 26+") {
-    CapsuleView{
-        Circle()
-    }
-}
-
-
-@available(iOS 18.0, *)
 #Preview("iOS 18") {
     CapsuleView{
         Text("Tokyo")
