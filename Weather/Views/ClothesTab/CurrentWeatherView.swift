@@ -40,7 +40,7 @@ struct CurrentWeatherView: View {
     
     /// 天気情報のコンテンツ部分
     /// - 地名、UV情報、雨情報を表示
-    private var weatherInfoContent: some View {
+    var weatherInfoContent: some View {
         VStack(spacing: 15) {
             // 地名表示
             CapsuleView {

@@ -19,7 +19,7 @@ struct CapsuleView<Content: View>: View {
                 .padding()
                 .background(Color.white.opacity(0.93))
                 .cornerRadius(25)
-                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 10, y: 5)
+                .shadow(color: Color.black.opacity(0.2), radius: 3, x: 3, y: 3)
         }
     }
 

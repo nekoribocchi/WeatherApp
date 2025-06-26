@@ -46,6 +46,7 @@
 		8AF1FA6A2E0D05BB0043D4EF /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF1FA692E0D05BB0043D4EF /* ErrorView.swift */; };
 		8AF1FA6C2E0D060B0043D4EF /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF1FA6B2E0D060B0043D4EF /* LoadingView.swift */; };
 		8AF1FA6E2E0D06300043D4EF /* MainTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF1FA6D2E0D06300043D4EF /* MainTab.swift */; };
+		8AF1FA762E0D19410043D4EF /* UpdateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF1FA752E0D19410043D4EF /* UpdateButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,6 +90,7 @@
 		8AF1FA692E0D05BB0043D4EF /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		8AF1FA6B2E0D060B0043D4EF /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		8AF1FA6D2E0D06300043D4EF /* MainTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTab.swift; sourceTree = "<group>"; };
+		8AF1FA752E0D19410043D4EF /* UpdateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				8ABD12CF2E02E98B00C6C153 /* WeatherView.swift */,
+				8AF1FA752E0D19410043D4EF /* UpdateButton.swift */,
 				8AF1FA652E0CDBAC0043D4EF /* DataUnavailableView.swift */,
 				8ABD12CD2E02E75800C6C153 /* TemperatureView.swift */,
 				8AA43F012DFF123000BE6757 /* ForecastView.swift */,
@@ -373,6 +376,7 @@
 				8ADEAE5D2DFAD66500A78CB4 /* MockData.swift in Sources */,
 				8A450C2C2E0B992800D93CE0 /* RealisticSunnyView.swift in Sources */,
 				8AF1FA6E2E0D06300043D4EF /* MainTab.swift in Sources */,
+				8AF1FA762E0D19410043D4EF /* UpdateButton.swift in Sources */,
 				8A450C2E2E0B992800D93CE0 /* RealisticRainView.swift in Sources */,
 				8A450C302E0B992800D93CE0 /* RealisticCloudyView.swift in Sources */,
 				8ADEAE552DFACC4200A78CB4 /* CurrentWeatherView.swift in Sources */,

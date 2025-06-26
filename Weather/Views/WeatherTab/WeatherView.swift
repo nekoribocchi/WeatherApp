@@ -11,39 +11,40 @@ import SwiftUI
 struct WeatherView: View {
     @ObservedObject var weatherManager: WeatherManager
     
-    //    let weather: CurrentWeatherAPI25
-    //
-    //    private var currentWeatherType: WeatherType {
-    //        return WeatherType.from(weatherMain: weather.weather.first?.main)
-    //    }
-    //
     var body: some View {
         ZStack {
             Color(.background)
-                .ignoresSafeArea() // 背景色を全体に適用
-            VStack(spacing: 20) {
-                // 更新ボタンを共通化
-                refreshButton
-                
-                // レイアウトを整理し、コンテンツエリアを分離
+                .ignoresSafeArea()
+            
+            VStack {
+                HStack{
+                    weatherInfoContent
+                    UpdateButton(action: { initializeWeatherData() })
+                }
                 weatherContentView
             }
-            .padding() // 全体のパディングを追加
         }
     }
     
-    // MARK: - 更新ボタン（冗長な処理を統合）
-    private var refreshButton: some View {
-        Button("更新") {
-            // 両方のデータを一度に更新する処理を統合
-            weatherManager.refreshAllWeatherData()
+    // MARK: - 天気情報コンテンツ
+    private var weatherInfoContent: some View {
+        Group {
+            if let weather = weatherManager.currentWeather{
+                VStack(spacing: 15) {
+                    CapsuleView {
+                        Text(weather.name)
+                            .font(.callout)
+                            .padding(.horizontal, 10)
+                    }                }
+            } else {
+                DataUnavailableView(title: "天気情報がありません")
+            }
         }
-        .buttonStyle(.borderedProminent)
     }
     
     // MARK: - 天気情報コンテンツエリア
     private var weatherContentView: some View {
-        VStack(spacing: 16) { // スペーシングを統一
+        VStack{ // スペーシングを統一
             // 気温データ表示
             temperatureSection
             
@@ -101,19 +102,17 @@ struct WeatherView: View {
         }
     }
     
-    // MARK: - 気温データの状態メッセージを生成
-    private var temperatureDataStatusMessage: String {
-        switch (weatherManager.forecastWeather, weatherManager.currentWeather) {
-        case (nil, nil):
-            return "予報と現在の天気データが必要です"
-        case (nil, _):
-            return "予報データが不足しています"
-        case (_, nil):
-            return "現在の天気データが不足しています"
-        default:
-            return ""
-        }
+    // MARK: - Private Methods
+    private func initializeWeatherData() {
+        print("🚀 アプリ起動時の天気データ初期化を開始")
+        weatherManager.getCurrentWeather()
+       
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    print("📅 天気予報データを取得中...")
+                    self.weatherManager.getForecast()
+                }
     }
+
 }
     
 
@@ -123,3 +122,4 @@ struct WeatherView: View {
 #Preview {
     WeatherView(weatherManager: WeatherManager())
 }
+

@@ -1,28 +1,61 @@
-//
-//  DataUnavailableView.swift
-//  Weather
-//
-//  Created by nekoribocchi on 2025/06/26.
-//
+// DataUnavailableView.swift
+// データが利用できない状態を表示するコンポーネント
 
 import SwiftUI
 
-// MARK: - データが利用できない時の共通表示ビュー
-/// 重複していたエラー表示UIを統合し、再利用可能にしたビュー
 struct DataUnavailableView: View {
+    // MARK: - Properties
     let title: String
+    let subtitle: String? // 修正: サブタイトルを追加（オプション）
+    let iconName: String
     
+    // MARK: - Initializers
+    /// データ利用不可ビューのイニシャライザ
+    /// - Parameters:
+    ///   - title: メインタイトル
+    ///   - subtitle: サブタイトル（オプション）
+    ///   - iconName: 表示するSFSymbolsアイコン名
+    init(
+        title: String,
+        subtitle: String? = nil,
+        iconName: String = "exclamationmark.circle"
+    ) {
+        self.title = title
+        self.subtitle = subtitle
+        self.iconName = iconName
+    }
+    
+    // MARK: - Body
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 12) {
+            // アイコン表示
+            Image(systemName: iconName)
+                .font(.system(size: 40))
+                .foregroundColor(.secondary)
+            
             // メインタイトル
             Text(title)
-                .foregroundColor(.secondary)
+                .font(.headline)
+                .foregroundColor(.primary)
                 .multilineTextAlignment(.center)
-
+            
+            // サブタイトル（存在する場合のみ表示）
+            if let subtitle = subtitle {
+                Text(subtitle)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+            }
         }
         .padding()
-        .background(Color.gray.opacity(0.1))
-        .cornerRadius(8)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(.regularMaterial)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(.secondary.opacity(0.2), lineWidth: 1)
+                )
+        )
     }
 }
 
@@ -30,7 +63,13 @@ struct DataUnavailableView: View {
 #Preview {
     VStack(spacing: 20) {
         DataUnavailableView(
-            title: "気温データがありません",
+            title: "データがありません"
+        )
+        
+        DataUnavailableView(
+            title: "天気データがありません",
+            subtitle: "下にスワイプして更新してください",
+            iconName: "cloud.slash"
         )
     }
     .padding()

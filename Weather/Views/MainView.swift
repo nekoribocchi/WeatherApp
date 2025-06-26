@@ -11,7 +11,7 @@ struct MainView: View {
     // MARK: - Body
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
+            VStack{
                 if weatherManager.isLoading {
                     LoadingView()
                 } else if !weatherManager.errorMessage.isEmpty {

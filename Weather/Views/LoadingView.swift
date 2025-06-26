@@ -12,7 +12,6 @@ struct LoadingView: View {
     // MARK: - Body
     var body: some View {
         VStack(spacing: 20) {
-            // 修正: より視覚的に分かりやすいローディング表示
             ProgressView()
                 .scaleEffect(1.5)
                 .tint(.blue)
@@ -27,7 +26,6 @@ struct LoadingView: View {
         }
         .padding()
         .background(
-            // 修正: 背景に軽いブラー効果を追加（視覚的改善）
             RoundedRectangle(cornerRadius: 12)
                 .fill(.regularMaterial)
         )
