@@ -17,7 +17,7 @@ enum WeatherAPIType {
     func url(apiKey: String) -> String {
         let baseURL2_5 = "https://api.openweathermap.org/data/2.5"
         let baseURL3 = "https://api.openweathermap.org/data/3.0/onecall?"
-        let commonParams = "&appid=\(apiKey)&units=metric&lang=ja"
+        let commonParams = "&appid=\(apiKey)&units=metric&lang=en"
 
         switch self {
         case .current(let lat, let lon):

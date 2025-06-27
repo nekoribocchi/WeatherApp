@@ -26,7 +26,7 @@ struct MainTabView: View {
                 }
             }
             .tabItem {
-                Image(systemName: "cloud.sun")
+                Image(systemName: "tshirt.fill")
                 Text("Clothes")
             }
             .tag(0)

@@ -140,7 +140,7 @@
 		8A17832F2C52063700A08B1B /* Weather */ = {
 			isa = PBXGroup;
 			children = (
-				8A869D1C2E0BB643008A2A6B /* RequidGrass */,
+				8A869D1C2E0BB643008A2A6B /* LiquidGlass */,
 				8A450C212E0B938F00D93CE0 /* Backgrounds */,
 				8A0C1EF92E099D3D00BE6E79 /* WeatherRelease.entitlements */,
 				8A1783302C52063700A08B1B /* WeatherApp.swift */,
@@ -196,12 +196,12 @@
 			path = Backgrounds;
 			sourceTree = "<group>";
 		};
-		8A869D1C2E0BB643008A2A6B /* RequidGrass */ = {
+		8A869D1C2E0BB643008A2A6B /* LiquidGlass */ = {
 			isa = PBXGroup;
 			children = (
 				8A869D242E0BB67E008A2A6B /* ToggleView.swift */,
 			);
-			path = RequidGrass;
+			path = LiquidGlass;
 			sourceTree = "<group>";
 		};
 		8A9FC6CC2DF98252001A6740 /* UIComponent */ = {

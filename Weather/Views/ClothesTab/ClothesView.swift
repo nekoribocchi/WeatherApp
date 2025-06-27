@@ -29,8 +29,9 @@ struct ClothesView: View {
     var body: some View {
         ZStack {
             // 背景ビュー（天気に応じて動的に変更）
-            WeatherBackgroundView(currentWeatherType)
-            
+           //WeatherBackgroundView(currentWeatherType)
+            Color.background
+                .ignoresSafeArea()
             // 天気情報表示
             weatherInfoContent
         }
@@ -41,7 +42,7 @@ struct ClothesView: View {
     /// 天気情報のコンテンツ部分
     /// - 地名、UV情報、雨情報を表示
     var weatherInfoContent: some View {
-        VStack(spacing: 15) {
+        VStack(spacing: 10) {
             // 地名表示
             CapsuleView {
                 Text(weather.name)
@@ -54,6 +55,12 @@ struct ClothesView: View {
                 NeedUVView(uv: oneCall)
                 NeedUmbrellaView(rain: oneCall)
             }
+            
+            Image("f")
+                .resizable()
+                .frame(width: 330, height:450)
+            
+            Spacer()
         }
     }
 }
