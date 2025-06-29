@@ -92,7 +92,6 @@ class WeatherManager: ObservableObject {
             await performWeatherRequest { [weak self] in
                 guard let self = self else { return }
                 
-                // 修正: 位置情報許可チェックを別メソッドに分離（重複コード削減）
                 try await self.checkLocationPermission()
                 
                 // 位置情報の取得
@@ -151,7 +150,6 @@ class WeatherManager: ObservableObject {
     
     /// APIキーを取得
     /// - Returns: OpenWeatherMap APIキー
-    /// - Note: Config.plistから取得、見つからない場合はfatalError
     static func getAPIKey() -> String {
         guard let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
               let plist = NSDictionary(contentsOfFile: path),
@@ -164,7 +162,6 @@ class WeatherManager: ObservableObject {
     
     /// 位置情報の許可状態をチェック
     /// - Throws: LocationError
-    /// - Note: 修正により重複コードを削減
     private func checkLocationPermission() async throws {
         switch locationService.authorizationStatus {
         case .notDetermined:
@@ -181,7 +178,6 @@ class WeatherManager: ObservableObject {
     
     /// 天気データリクエストの共通処理
     /// - Parameter request: 実行する非同期処理
-    /// - Note: ローディング状態管理とエラーハンドリングを統一
     private func performWeatherRequest(_ request: () async throws -> Void) async {
         isLoading = true
         errorMessage = ""

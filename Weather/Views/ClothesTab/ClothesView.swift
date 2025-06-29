@@ -61,6 +61,8 @@ struct ClothesView: View {
             weatherManager.getForecast()
         }
     }
+    
+    private func weatherImage(weather: WeatherManager.get)
 }
 
 
