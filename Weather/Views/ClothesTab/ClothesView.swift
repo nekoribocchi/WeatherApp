@@ -49,7 +49,7 @@ struct ClothesView: View {
                 NeedUmbrellaView(rain: oneCall)
             }
             
-            Image("hotday")
+            clothingImage()
                 .resizable()
                 .frame(width: 270, height:480)
         }
@@ -62,15 +62,32 @@ struct ClothesView: View {
         }
     }
     
-    private func weatherImage(weather: WeatherManager.get)
+    private func clothingImage() -> Image {
+        let feel = weather.getFeelsLike
+
+        if feel >= 30 {
+            return Image("very_hot")
+        } else if feel >= 25 {
+            return Image("hot")
+        } else if feel >= 20 {
+            return Image("little_hot")
+        } else if feel >= 15 {
+            return Image("conf")
+        } else if feel >= 10 {
+            return Image("little_cold")
+        } else if feel >= 5 {
+            return Image("cold")
+        } else {
+            return Image("very_cold")
+        }
+    }
 }
 
 
 #Preview {
     ClothesView(
         weatherManager: WeatherManager(),
-        weather: .
-        mockData,
+        weather: .mockRainyData,
         oneCall: OneCallAPI30(
             current: .init(uvi: 8.5, weather: [.init(main: "Rain", description: "Clear sky", icon: "01d")]),
             daily: [.init(pop: 0.2, weather: [.init(main: "Rain", description: "light rain", icon: "10d")])]

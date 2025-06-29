@@ -29,3 +29,11 @@ struct CurrentWeatherAPI25: Codable {
         let icon: String
     }
 }
+
+// MARK: - Convenience Methods
+extension CurrentWeatherAPI25 {
+    /// 体感温度を取得
+    var getFeelsLike: Double {
+        return main.feels_like
+    }
+}
