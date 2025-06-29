@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-/// 現在の天気情報を表示するメインビュー
-/// - 天気データに基づいて背景と情報を表示
 struct ClothesView: View {
 @ObservedObject var weatherManager: WeatherManager
     
