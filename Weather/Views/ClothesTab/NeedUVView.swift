@@ -22,6 +22,11 @@ struct NeedUVView: View {
                         .fill(.gray).opacity(0.7)
                         .frame(width: 90, height: 90)
                         .shadow(radius: 5)
+                    Image(systemName: "line.diagonal")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.black)
                 }
                 VStack(spacing: 4) {
                     Image(systemName: "sunglasses.fill")
@@ -29,7 +34,6 @@ struct NeedUVView: View {
                         .scaledToFit()
                         .frame(width: 50, height: 50)
                         .foregroundColor(.black)
-                    
                 }
             }
             .accessibilityLabel("High UV index. Sunscreen recommended.")

@@ -20,7 +20,7 @@ struct MainTabView: View {
         TabView(selection: $selectedTab) {
             Group {
                 if let weather = weatherManager.currentWeather, let oneCall = weatherManager.oneCallAPI30 {
-                    ClothesView(weather: weather, oneCall: oneCall)
+                    ClothesView(weatherManager: weatherManager, weather: weather, oneCall: oneCall)
                 } else {
                     Text("天気データがありません")
                 }
@@ -33,7 +33,7 @@ struct MainTabView: View {
             
             WeatherView(weatherManager: weatherManager)
                 .tabItem {
-                    Image("uv")
+                    Image(systemName: "cloud")
                     Text("Weather")
                 }
                 .tag(1)

@@ -33,7 +33,7 @@ struct MainView: View {
     }
     
     // MARK: - Private Methods
-    private func initializeWeatherData() {
+    func initializeWeatherData() {
         print("🚀 アプリ起動時の天気データ初期化を開始")
         weatherManager.getCurrentWeather()
        

@@ -82,7 +82,7 @@ struct WeatherView: View {
                     WeatherIcon
                     TemperatureView(forecast: forecast, weather: weather)
                 }
-                .padding(.horizontal,20)
+                .padding(60)
             } else {
                 // エラー表示を共通化
                 DataUnavailableView(

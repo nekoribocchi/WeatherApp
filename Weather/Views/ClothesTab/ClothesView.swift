@@ -11,6 +11,7 @@ import SwiftUI
 /// - 天気データに基づいて背景と情報を表示
 /// - WeatherBackgroundViewを使用して統一的な背景表示を実現
 struct ClothesView: View {
+@ObservedObject var weatherManager: WeatherManager
     
     // MARK: - Properties
     
@@ -29,7 +30,7 @@ struct ClothesView: View {
     var body: some View {
         ZStack {
             // 背景ビュー（天気に応じて動的に変更）
-           //WeatherBackgroundView(currentWeatherType)
+      //     WeatherBackgroundView(currentWeatherType)
             Color.background
                 .ignoresSafeArea()
             // 天気情報表示
@@ -42,12 +43,16 @@ struct ClothesView: View {
     /// 天気情報のコンテンツ部分
     /// - 地名、UV情報、雨情報を表示
     var weatherInfoContent: some View {
-        VStack(spacing: 10) {
-            // 地名表示
-            CapsuleView {
-                Text(weather.name)
-                    .font(.callout)
-                    .padding(.horizontal, 10)
+        VStack(spacing: 20) {
+            HStack{
+                // 地名表示
+                CapsuleView {
+                    Text(weather.name)
+                        .font(.callout)
+                        .padding(.horizontal, 10)
+                }
+                
+                UpdateButton(action: { initializeWeatherData() })
             }
             
             // 天気関連情報（UV指数、雨の必要性）
@@ -56,11 +61,18 @@ struct ClothesView: View {
                 NeedUmbrellaView(rain: oneCall)
             }
             
-            Image("g")
+            Image("h")
                 .resizable()
                 .frame(width: 270, height:480)
             
             
+        }
+    }
+    
+    private func initializeWeatherData() {
+        weatherManager.getCurrentWeather()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            weatherManager.getForecast()
         }
     }
 }
@@ -68,9 +80,11 @@ struct ClothesView: View {
 
 #Preview {
     ClothesView(
-        weather: .mockData,
+        weatherManager: WeatherManager(),
+        weather: .
+        mockData,
         oneCall: OneCallAPI30(
-            current: .init(uvi: 8.5, weather: [.init(main: "Clear", description: "Clear sky", icon: "01d")]),
+            current: .init(uvi: 8.5, weather: [.init(main: "Rain", description: "Clear sky", icon: "01d")]),
             daily: [.init(pop: 0.2, weather: [.init(main: "Rain", description: "light rain", icon: "10d")])]
         )
     )

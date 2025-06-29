@@ -26,7 +26,7 @@ struct TemperatureView: View {
                     .fontWeight(.medium)
                     .foregroundColor(.blue)
                 
-                    .padding()
+                    .padding(5)
                 
                 Text("\(Int(maxTemp))°C")
                     .font(.title2)
