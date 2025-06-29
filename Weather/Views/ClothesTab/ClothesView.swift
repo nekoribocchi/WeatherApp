@@ -51,27 +51,27 @@ struct ClothesView: View {
             }
             
             // 天気関連情報（UV指数、雨の必要性）
-            HStack {
+            HStack(spacing: 50)  {
                 NeedUVView(uv: oneCall)
                 NeedUmbrellaView(rain: oneCall)
             }
             
-            Image("f")
+            Image("g")
                 .resizable()
-                .frame(width: 330, height:450)
+                .frame(width: 270, height:480)
             
-            Spacer()
+            
         }
     }
 }
-//
-//// MARK: - Preview
-//#Preview {
-//    ClothesView(
-//        weather: .mockData,
-//        oneCall: OneCallAPI30(
-//            current: .init(uvi: 2),
-//            daily: [.init(pop: 0.8)]
-//        )
-//    )
-//}
+
+
+#Preview {
+    ClothesView(
+        weather: .mockData,
+        oneCall: OneCallAPI30(
+            current: .init(uvi: 8.5, weather: [.init(main: "Clear", description: "Clear sky", icon: "01d")]),
+            daily: [.init(pop: 0.2, weather: [.init(main: "Rain", description: "light rain", icon: "10d")])]
+        )
+    )
+}

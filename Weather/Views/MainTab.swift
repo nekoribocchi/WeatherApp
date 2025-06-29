@@ -33,7 +33,7 @@ struct MainTabView: View {
             
             WeatherView(weatherManager: weatherManager)
                 .tabItem {
-                    Image(systemName: "sun.min.fill")
+                    Image("uv")
                     Text("Weather")
                 }
                 .tag(1)

@@ -21,15 +21,11 @@ struct ForecastItemView: View {
                 .foregroundColor(.primary)
             
             // 天気アイコン
-            AsyncImage(url: URL(string: "https://openweathermap.org/img/wn/\(item.weather.first?.icon ?? "01d")@2x.png")) { image in
-                image
+            Image("\(String(describing: item.weather.first?.icon ?? "01d" ))")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-            } placeholder: {
-                Image(systemName: "cloud")
-                    .foregroundColor(.gray)
-            }
-            .frame(width: 30, height: 30)
+    
+            .frame(width: 25, height: 25)
             
             // 気温
             Text("\(Int(item.main.temp))°C")

@@ -15,12 +15,12 @@ struct NeedUVView: View {
                 if uv.current.uvi > 3 {
                     Circle()
                         .fill(.white).opacity(0.7)
-                        .frame(width: 100, height: 100)
+                        .frame(width: 90, height: 90)
                         .shadow(radius: 5)
                 }else{
                     Circle()
                         .fill(.gray).opacity(0.7)
-                        .frame(width: 100, height: 100)
+                        .frame(width: 90, height: 90)
                         .shadow(radius: 5)
                 }
                 VStack(spacing: 4) {

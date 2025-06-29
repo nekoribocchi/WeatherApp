@@ -29,69 +29,18 @@ struct WeatherView: View {
     }
     
     private var WeatherIcon: some View {
-        Group {
-            if let oneCallAPI30 = weatherManager.oneCallAPI30 {
-                AsyncImage(url: oneCallAPI30.todayWeatherIconURL()) { phase in
-                    switch phase {
-                    case .empty:
-                        ProgressView()
-                            .frame(width: 150, height: 150)
-                            .background(Color.gray.opacity(0.1))
-                            .cornerRadius(12)
-                        
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 150, height: 150)
-                            .background(Color.clear)
-                        
-                    case .failure(_):
-                        fallbackWeatherIcon
-                        
-                    @unknown default:
-                        fallbackWeatherIcon
-                    }
-                }
-            }
-        }
-    }
-    
-    // MARK: - フォールバック用の天気アイコン
-    private var fallbackWeatherIcon: some View {
-        Group {
-            if let icon = weatherManager.currentWeather?.weather.first?.icon {
-                AsyncImage(url: URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png")) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                } placeholder: {
-                    defaultWeatherIcon
-                }
-                .frame(width: 150, height: 150)
-            } else {
-                defaultWeatherIcon
-            }
-        }
-    }
-    
-    
-    
-    // MARK: - デフォルト天気アイコン
-    private var defaultWeatherIcon: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color.gray.opacity(0.1))
-                .frame(width: 150, height: 150)
+        if let icon = weatherManager.currentWeather?.weather.first?.icon {
+            Image("\(icon)")
+                .resizable()
+                .frame(width: 100, height: 100)
             
-            Image(systemName: "cloud.sun")
-                .font(.system(size: 60))
-                .foregroundColor(.blue)
+        }
+        else{
+            Image("01d")
+                .resizable()
+                .frame(width: 100, height: 100)
         }
     }
-    
-    
-    
     
     // MARK: - 天気情報コンテンツ
     private var weatherInfoContent: some View {
@@ -193,4 +142,3 @@ struct WeatherView: View {
 #Preview {
     WeatherView(weatherManager: WeatherManager())
 }
-
