@@ -48,7 +48,7 @@ struct WeatherView: View {
         Group {
             if let weather = weatherManager.currentWeather{
                 VStack(spacing: 15) {
-                    WhiteCircle {
+                    WhiteCapsule {
                         Text(weather.name)
                             .font(.callout)
                             .padding(.horizontal, 10)
