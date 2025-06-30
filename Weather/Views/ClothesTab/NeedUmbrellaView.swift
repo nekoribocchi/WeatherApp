@@ -5,7 +5,7 @@
 //
 
 import SwiftUI
-
+import GlassmorphismUI
 struct NeedUmbrellaView: View {
     let rain: OneCallAPI30
     
@@ -13,15 +13,19 @@ struct NeedUmbrellaView: View {
         
         ZStack {
             if rain.daily.first!.pop > 0.5 {
-                Circle()
-                    .fill(.white).opacity(0.7)
-                    .frame(width: 90, height: 90)
-                    .shadow(radius: 5)
+                WhiteCircle{
+                    Image(systemName: "umbrella.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                }
             } else {
-                Circle()
-                    .fill(.gray).opacity(0.7)
-                    .frame(width: 90, height: 90)
-                    .shadow(radius: 5)
+                WhiteCircle(backgroundColor: .gray){
+                    Image(systemName: "umbrella.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                }
                 
                 Image(systemName: "line.diagonal")
                     .resizable()
@@ -29,13 +33,20 @@ struct NeedUmbrellaView: View {
                     .frame(width: 50, height: 50)
                     .foregroundColor(.black)
             }
-            VStack(spacing: 4) {
-                Image(systemName: "umbrella.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 50, height: 50)
-                    .foregroundColor(.black)
-            }
         }
+    }
+}
+#Preview {
+    VStack {
+        Text("Low Pop")
+        NeedUmbrellaView(rain: OneCallAPI30(
+            current: .init(uvi: 5, weather: [OneCallAPI30.Weather(main: "Clear", description: "clear sky", icon: "01d")]),
+            daily: [OneCallAPI30.Daily(pop: 0.0, weather: [OneCallAPI30.Weather(main: "Clear", description: "clear sky", icon: "01d")])]
+        ))
+        Text("High Pop")
+        NeedUmbrellaView(rain: OneCallAPI30(
+            current: .init(uvi: 1, weather: [OneCallAPI30.Weather(main: "Clouds", description: "overcast clouds", icon: "04d")]),
+            daily: [OneCallAPI30.Daily(pop: 0.6, weather: [OneCallAPI30.Weather(main: "Rain", description: "light rain", icon: "10d")])]
+        ))
     }
 }

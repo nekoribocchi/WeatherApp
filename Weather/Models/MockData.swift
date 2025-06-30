@@ -32,7 +32,7 @@ extension CurrentWeatherAPI25 {
         name: "大阪",
         main: Main(
             temp: 18.0,
-            feels_like: 16.0,
+            feels_like: 35.0,
             temp_min: 15.0,
             temp_max: 22.0,
         ),

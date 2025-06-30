@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import GlassmorphismUI
 
 // MARK: - WeatherView
 struct WeatherView: View {
@@ -47,7 +48,7 @@ struct WeatherView: View {
         Group {
             if let weather = weatherManager.currentWeather{
                 VStack(spacing: 15) {
-                    CapsuleView {
+                    WhiteCircle {
                         Text(weather.name)
                             .font(.callout)
                             .padding(.horizontal, 10)

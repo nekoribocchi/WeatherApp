@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import GlassmorphismUI
 
 struct ClothesView: View {
 @ObservedObject var weatherManager: WeatherManager
@@ -35,11 +36,9 @@ struct ClothesView: View {
     var weatherInfoContent: some View {
         VStack(spacing: 20) {
             HStack{
-                CapsuleView {
-                    Text(weather.name)
-                        .font(.callout)
-                        .padding(.horizontal, 10)
-                }
+                    WhiteCapsule {
+                        Text(weather.name)
+                    }
                 
                 UpdateButton(action: { initializeWeatherData() })
             }
@@ -54,6 +53,7 @@ struct ClothesView: View {
                 .frame(width: 270, height:480)
         }
     }
+    
     
     private func initializeWeatherData() {
         weatherManager.getCurrentWeather()
